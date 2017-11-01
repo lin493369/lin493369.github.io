@@ -4,6 +4,32 @@
 
     
   <url>
+    <loc>http://lin493369.github.io/2017/11/01/iOS%20%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%20hook%20%E7%B3%BB%E7%BB%9F%E7%9A%84%20delegate%20%E6%96%B9%E6%B3%95%EF%BC%9F/</loc>
+    <lastmod>2017-11-01T07:19:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 如何优雅地 hook 系统的 delegate 方法？</title>
+        <pubTime>2017-10-31T16:00:00.000Z</pubTime>
+        
+        <tag>Objective-C</tag>
+         
+        <tag>hook</tag>
+         
+        <tag>swizzling</tag>
+         
+        <tag>runtime</tag>
+         
+         
+           
+             
+              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://lin493369.github.io/2015/11/24/Xcode-%E7%94%A8%E4%BA%8E%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AAtarget%E9%85%8D%E7%BD%AE%E7%9A%84XCConfig%E6%96%87%E4%BB%B6/</loc>
     <lastmod>2017-04-13T03:33:18.000Z</lastmod>
     <data>
@@ -116,12 +142,12 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/07/01/iOS10%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%EF%BC%88LocalNotification)/</loc>
+    <loc>http://lin493369.github.io/2016/09/22/iOS10%E6%B7%BB%E5%8A%A0%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>iOS 10 添加本地推送（Local Notification）</title>
-        <pubTime>2016-06-30T16:00:00.000Z</pubTime>
+        <title>iOS 10 添加推送功能注意点及问题汇总</title>
+        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
         
         <tag>iOS10</tag>
          
@@ -140,21 +166,19 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/08/31/%E8%8E%B7%E5%8F%96IDFA%E8%BF%94%E5%9B%9E%E5%85%A8%E9%9B%B6%E9%94%99%E8%AF%AF/</loc>
+    <loc>http://lin493369.github.io/2015/12/27/interesting-discussions-on-swift-evolution/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>iOS 10 IDFA 新策略 </title>
-        <pubTime>2016-08-30T16:00:00.000Z</pubTime>
+        <title>关于 Swift 演变的趣味探讨</title>
+        <pubTime>2015-12-26T16:00:00.000Z</pubTime>
         
-        <tag>iOS10</tag>
-         
-        <tag>IDFA</tag>
+        <tag>Swift</tag>
          
          
            
              
-              <breadCrumb title="iOS10" url="http://lin493369.github.io/categories/iOS10/"/>
+              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
           
         </display>
     </data>
@@ -162,23 +186,19 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
+    <loc>http://lin493369.github.io/2015/11/09/WatchConnectivity--%E9%80%9A%E8%BF%87%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E5%85%B1%E4%BA%AB%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>如何简单地为测试切换 App Delegate</title>
-        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
+        <title>【WatchOS 2教程系列四】WatchConnectivity：通过用户信息共享所有数据</title>
+        <pubTime>2015-11-08T16:00:00.000Z</pubTime>
         
-        <tag>test</tag>
-         
-        <tag>效率</tag>
-         
-        <tag>AppDelegate</tag>
+        <tag>Natasha The Robot</tag>
          
          
            
              
-              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
+              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
           
         </display>
     </data>
@@ -205,50 +225,6 @@
            
              
               <breadCrumb title="Animation" url="http://lin493369.github.io/categories/Animation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>【WatchOS 2教程系列一】WatchOS 2: Hello, World</title>
-        <pubTime>2015-10-02T01:00:00.000Z</pubTime>
-        
-        <tag>WatchOS</tag>
-         
-         
-           
-             
-              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2016/01/18/AnEasyWayToStubNSURLSession/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何简单地模拟 NSURLSeesion 的返回数据</title>
-        <pubTime>2016-01-17T16:00:00.000Z</pubTime>
-        
-        <tag>test</tag>
-         
-        <tag>效率</tag>
-         
-        <tag>NSURLSeesion</tag>
-         
-         
-           
-             
-              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
           
         </display>
     </data>
@@ -300,6 +276,26 @@
 
     
   <url>
+    <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>【WatchOS 2教程系列一】WatchOS 2: Hello, World</title>
+        <pubTime>2015-10-02T01:00:00.000Z</pubTime>
+        
+        <tag>WatchOS</tag>
+         
+         
+           
+             
+              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://lin493369.github.io/2017/04/10/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -322,19 +318,23 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/12/27/interesting-discussions-on-swift-evolution/</loc>
+    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>关于 Swift 演变的趣味探讨</title>
-        <pubTime>2015-12-26T16:00:00.000Z</pubTime>
+        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
+        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
         
-        <tag>Swift</tag>
+        <tag>storyboard</tag>
+         
+        <tag>strong</tag>
+         
+        <tag>IB</tag>
          
          
            
              
-              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
           
         </display>
     </data>
@@ -342,12 +342,36 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/09/22/iOS10%E6%B7%BB%E5%8A%A0%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/</loc>
+    <loc>http://lin493369.github.io/2016/01/18/AnEasyWayToStubNSURLSession/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>iOS 10 添加推送功能注意点及问题汇总</title>
-        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
+        <title>如何简单地模拟 NSURLSeesion 的返回数据</title>
+        <pubTime>2016-01-17T16:00:00.000Z</pubTime>
+        
+        <tag>test</tag>
+         
+        <tag>效率</tag>
+         
+        <tag>NSURLSeesion</tag>
+         
+         
+           
+             
+              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/07/01/iOS10%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%EF%BC%88LocalNotification)/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 10 添加本地推送（Local Notification）</title>
+        <pubTime>2016-06-30T16:00:00.000Z</pubTime>
         
         <tag>iOS10</tag>
          
@@ -359,28 +383,6 @@
            
              
               <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2016/03/11/iOS%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84Block%E5%9B%9E%E8%B0%83%E4%BD%BF%E7%94%A8%E5%92%8C%E8%A7%A3%E6%9E%90/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>iOS 简单易懂的 Block 回调使用和解析 </title>
-        <pubTime>2016-03-10T16:00:00.000Z</pubTime>
-        
-        <tag>Objective-C</tag>
-         
-        <tag>block</tag>
-         
-         
-           
-             
-              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
           
         </display>
     </data>
@@ -408,26 +410,6 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/11/09/WatchConnectivity--%E9%80%9A%E8%BF%87%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E5%85%B1%E4%BA%AB%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>【WatchOS 2教程系列四】WatchConnectivity：通过用户信息共享所有数据</title>
-        <pubTime>2015-11-08T16:00:00.000Z</pubTime>
-        
-        <tag>Natasha The Robot</tag>
-         
-         
-           
-             
-              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://lin493369.github.io/2016/01/05/iOS%E5%90%AF%E5%8A%A8%E6%97%B6%E4%BC%98%E5%8C%96(1)/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -445,6 +427,28 @@
            
              
               <breadCrumb title="性能优化" url="http://lin493369.github.io/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/03/11/iOS%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84Block%E5%9B%9E%E8%B0%83%E4%BD%BF%E7%94%A8%E5%92%8C%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 简单易懂的 Block 回调使用和解析 </title>
+        <pubTime>2016-03-10T16:00:00.000Z</pubTime>
+        
+        <tag>Objective-C</tag>
+         
+        <tag>block</tag>
+         
+         
+           
+             
+              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
           
         </display>
     </data>
@@ -500,45 +504,23 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
+    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>Swift：带有私有设置方法的公有属性</title>
-        <pubTime>2016-01-07T16:00:00.000Z</pubTime>
+        <title>如何简单地为测试切换 App Delegate</title>
+        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
         
-        <tag>Swift</tag>
+        <tag>test</tag>
          
-        <tag>封装</tag>
+        <tag>效率</tag>
+         
+        <tag>AppDelegate</tag>
          
          
            
              
-              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
-        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
-        
-        <tag>storyboard</tag>
-         
-        <tag>strong</tag>
-         
-        <tag>IB</tag>
-         
-         
-           
-             
-              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
+              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
           
         </display>
     </data>
@@ -554,6 +536,50 @@
         <pubTime>2015-09-23T16:00:00.000Z</pubTime>
         
         <tag>swift</tag>
+         
+         
+           
+             
+              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/08/31/%E8%8E%B7%E5%8F%96IDFA%E8%BF%94%E5%9B%9E%E5%85%A8%E9%9B%B6%E9%94%99%E8%AF%AF/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 10 IDFA 新策略 </title>
+        <pubTime>2016-08-30T16:00:00.000Z</pubTime>
+        
+        <tag>iOS10</tag>
+         
+        <tag>IDFA</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS10" url="http://lin493369.github.io/categories/iOS10/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>Swift：带有私有设置方法的公有属性</title>
+        <pubTime>2016-01-07T16:00:00.000Z</pubTime>
+        
+        <tag>Swift</tag>
+         
+        <tag>封装</tag>
          
          
            
