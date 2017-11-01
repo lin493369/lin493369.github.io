@@ -1,0 +1,1024 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="test,效率,AppDelegate," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是因为当你测试运行时，首先要启动你的应用——而这个过程可能做了很多事情，大量耗时的操作。而这些耗时的操作在测试的时候并不是我们所需要的。我们应该如何避免这个问题？">
+<meta name="keywords" content="test,效率,AppDelegate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何简单地为测试切换 App Delegate">
+<meta property="og:url" content="http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="这是因为当你测试运行时，首先要启动你的应用——而这个过程可能做了很多事情，大量耗时的操作。而这些耗时的操作在测试的时候并不是我们所需要的。我们应该如何避免这个问题？">
+<meta property="og:image" content="http://qualitycoding.org/jrwp/wp-content/uploads/2015/03/turtle.jpg">
+<meta property="og:updated_time" content="2017-04-11T11:35:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何简单地为测试切换 App Delegate">
+<meta name="twitter:description" content="这是因为当你测试运行时，首先要启动你的应用——而这个过程可能做了很多事情，大量耗时的操作。而这些耗时的操作在测试的时候并不是我们所需要的。我们应该如何避免这个问题？">
+<meta name="twitter:image" content="http://qualitycoding.org/jrwp/wp-content/uploads/2015/03/turtle.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/"/>
+
+
+
+
+
+  <title> 如何简单地为测试切换 App Delegate | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何简单地为测试切换 App Delegate
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-19T00:00:00+08:00">
+                2015-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Test/" itemprop="url" rel="index">
+                    <span itemprop="name">Test</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,504
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  这是因为当你测试运行时，首先要启动你的应用——而这个过程可能做了很多事情，大量耗时的操作。而这些耗时的操作在测试的时候并不是我们所需要的。我们应该如何避免这个问题？
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接=<a href="http://qualitycoding.org/app-delegate-for-tests/" target="_blank" rel="external">http://qualitycoding.org/app-delegate-for-tests/</a><br>作者=Jon Reid<br>原文日期=2015/03/17</p>
+<hr>
+<p><a href="http://qualitycoding.org/benefit-of-tdd/" target="_blank" rel="external">测试驱动的开发最大好处是能够有快速反馈</a>（译者：这是作者的另一篇文章，讲述了测试驱动的好处，有兴趣的可以看看）。所以，为了确保你的 TDD 效率，最好的方式就是尽可能快地获得反馈。</p>
+<p>但是很多 iOS 开发者会在测试的时候使用生产环境（译者：应用开发中的不同阶段，一般分为开发环境 development，处于产品开发阶段；生产环境 production，即正式上线的环境，更详细的请参照 <a href="https://en.wikipedia.org/wiki/Development,_testing,_acceptance_and_production" target="_blank" rel="external">Development, testing, acceptance and production</a>）的 app delegate。这是一个影响效率的问题。</p>
+<p>你的常规 app delegate 在用于测试时是否跟龟速一样？</p>
+<p><img src="http://qualitycoding.org/jrwp/wp-content/uploads/2015/03/turtle.jpg" alt="这里写图片描述"></p>
+<p>这是因为当你测试运行时，首先要启动你的应用——而这个过程可能做了很多事情，大量耗时的操作。而这些耗时的操作在测试的时候并不是我们所需要的。</p>
+<p>我们应该如何避免这个问题？</p>
+<h2 id="测试流程"><a href="#测试流程" class="headerlink" title="测试流程"></a>测试流程</h2><p>Apple 习惯将单元测试归为两类：应用测试和逻辑测试。这个区别是非常重要的，因为在以前，应用测试只能在设备上运行，除非你使用完全不同的第三方测试框架。</p>
+<p>但是这个差异现在消失了，因为 Apple 允许我们在模拟器上运行应用测试。Apple 花了很多时间来更新文档，直到在他们最新的<a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/testing_with_xcode/Introduction/Introduction.html" target="_blank" rel="external">Xcode测试</a>才更新了这部分说明，Apple 现在称之为 “app tests” 和 “library tests”。这就使事情简化为你是开发一个应用还是一个库。并且 Xcode 为你设置了一个测试用的 target ，这正是你所需要的。</p>
+<p>如果我现在开发一个应用（或者一个需要运行应用的库），我总是会运行应用测试，所以我<a href="http://qualitycoding.org/xcode-unit-testing/" target="_blank" rel="external">停止去试图区分这两种类型的测试</a>。但是由于 Xcode 是在一个运行的应用的上下文环境下执行应用测试，测试流程就变成这样：</p>
+<ol>
+<li>启动模拟器 </li>
+<li>在模拟器中，启动应用 </li>
+<li>将测试 bundle 注入运行的应用 </li>
+<li>运行测试</li>
+</ol>
+<p>那么我们怎么才能加快这个流程呢？我们可以在第二步中做文章，让应用尽可能快地启动。</p>
+<h2 id="普通的-app-delegate"><a href="#普通的-app-delegate" class="headerlink" title="普通的 app delegate"></a>普通的 app delegate</h2><p>在开发环境下，启动应用可能会关闭很多任务。Ole Begemann 在 <a href="http://oleb.net/blog/2012/02/app-launch-sequence-ios-revisited/" target="_blank" rel="external">Revisiting the App Launch Sequence on iOS</a>中进行了详细的解释，但是根本上， <code>UIApplicationMain()</code> 最终会调用 app delegate去执行 <code>application:didFinishLaunchingWithOptions:</code> 。具体的流程一般取决于你的应用，但是很少会像下面这么做：</p>
+<ol>
+<li>创建 Core Data。</li>
+<li>配置根视图控制器</li>
+<li>检测网络连通性</li>
+<li>向服务器发送一个网络请求去取回最近的配置，例如应该在根视图中展示的东西。</li>
+</ol>
+<p>因此在开始测试之前要做很多事情。难道不能使我们的测试不受干扰，如果我们想要的只是运行我们的测试程序？</p>
+<p>让我们来解决这个问题，下面是具体方案。</p>
+<h2 id="改变-main-函数"><a href="#改变-main-函数" class="headerlink" title="改变 main 函数"></a>改变 main 函数</h2><p>让我们改变我们的 main 函数，如下所示：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"AppDelegate.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">&#123;</div><div class="line">    <span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们现在想要去检查是否我们在运行测试代码。如果想要这么做的话，我们想要去使用一个不同的 app delegate。我们可以这么做：</p>
+<p>最早的版本<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"AppDelegate.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"TestingAppDelegate.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">&#123;</div><div class="line">    <span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">        <span class="built_in">BOOL</span> isTesting = <span class="built_in">NSClassFromString</span>(<span class="string">@"XCTestCase"</span>) != Nil;</div><div class="line">        Class appDelegateClass = isTesting ? [TestingAppDelegate <span class="keyword">class</span>] : [AppDelegate <span class="keyword">class</span>];</div><div class="line">        <span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, <span class="built_in">NSStringFromClass</span>(appDelegateClass));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从根本上来说，如果 XCTestCase 链接好了，我们就会使用 <code>TestingAppDelegate</code>。否则，我们退而使用生产环境的 app delegate。然后我们启动应用时可以选择我们想要的 app delegate。（注意：TestingAppDelegate 必须在生产环境的 target 中）</p>
+<p>现在这些代码已经实现了来回切换。上述部分的实现从根本上和我原先的文章一致。因为有一段时间，根据评论中的建议，我将代码改为：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">Class appDelegateClass = <span class="built_in">NSClassFromString</span>(@”XYZTestingAppDelegate”);</div><div class="line"><span class="keyword">if</span>( appDelegateClass == <span class="literal">nil</span> ) &#123;</div><div class="line">appDelegateClass = [DOAAppDelegate <span class="keyword">class</span>];</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, <span class="built_in">NSStringFromClass</span>(appDelegateClass));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是在Xcode7上不能正常运行，所以我又改回原始版本。</p>
+<p>如果你想在单元测试外部使用 XCTest 该怎么办，例如 UI 测试？为了取代为 XCTestCase 做的测试，你可以设置一个环境变量，通过 getenv 来测试。</p>
+<h2 id="提供-TestingAppDelegate"><a href="#提供-TestingAppDelegate" class="headerlink" title="提供 TestingAppDelegate"></a>提供 TestingAppDelegate</h2><p>这里需要创建一个 TestingAppDelegate 类。正如下面代码所示：</p>
+<p>TestingAppDelegate.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestingAppDelegate</span> : <span class="title">UIResponder</span> &lt;<span class="title">UIApplicationDelegate</span>&gt;</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UIWindow</span> *window;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>TestingAppDelegate.m</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"TestingAppDelegate.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestingAppDelegate</span></span></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>正如你所看到的那样，不要做任何事。</p>
+<p>（在早先的 iOS 版本中，我必须添加更多的代码，导致 TestingAppDelegate  会创建一个 window，给这个 window 设置一个不做任何事情的根视图，然后让其可见。现在看来没必要了。）</p>
+<h2 id="快速反馈的本质"><a href="#快速反馈的本质" class="headerlink" title="快速反馈的本质"></a>快速反馈的本质</h2><p>最重要的事情是我们已经从本质上减少了测试过程中启动应用的步骤。尽管还有一些不必要的开销，但是并不多。这是实现快速反馈过程中重要的一步，这样我们就可以从 TDD 中获得更多。</p>
+<p>甚至当你开始一个新的项目，我推荐尽早使用这样的方法，因为你真正的app delegate最终会变得日益庞大。让我们在襁褓中阻止这种问题，然后保持快速的反馈。</p>
+<p>另外一个好处是，通过完全控制哪部分该测试，什么时候测试，我们现在可以编写跟生产环境的app delegate完全不同的单元测试。这显然是双赢的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/test/" rel="tag"># test</a>
+          
+            <a href="/tags/效率/" rel="tag"># 效率</a>
+          
+            <a href="/tags/AppDelegate/" rel="tag"># AppDelegate</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/27/interesting-discussions-on-swift-evolution/" rel="next" title="关于 Swift 演变的趣味探讨">
+                <i class="fa fa-chevron-left"></i> 关于 Swift 演变的趣味探讨
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/17/CoreAnimation&Facebook'sPOP/" rel="prev" title="Core Animation & Facebook's POP">
+                Core Animation & Facebook's POP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试流程"><span class="nav-number">1.</span> <span class="nav-text">测试流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通的-app-delegate"><span class="nav-number">2.</span> <span class="nav-text">普通的 app delegate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变-main-函数"><span class="nav-number">3.</span> <span class="nav-text">改变 main 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提供-TestingAppDelegate"><span class="nav-number">4.</span> <span class="nav-text">提供 TestingAppDelegate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速反馈的本质"><span class="nav-number">5.</span> <span class="nav-text">快速反馈的本质</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

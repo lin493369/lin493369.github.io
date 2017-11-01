@@ -1,0 +1,1028 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objective-C,block," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文主要讲的是 Block 回调的使用，以及 Block 是如何实现这种神奇的回调两部分来讲的。">
+<meta name="keywords" content="Objective-C,block">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 简单易懂的 Block 回调使用和解析 ">
+<meta property="og:url" content="http://lin493369.github.io/2016/03/11/iOS简单易懂的Block回调使用和解析/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="本文主要讲的是 Block 回调的使用，以及 Block 是如何实现这种神奇的回调两部分来讲的。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/928928-80838951ad6524a9?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/928928-13f64f2fd46f30fa?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/928928-e4de1ec1692eb173?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/928928-2788415bb549621d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-04-11T11:35:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 简单易懂的 Block 回调使用和解析 ">
+<meta name="twitter:description" content="本文主要讲的是 Block 回调的使用，以及 Block 是如何实现这种神奇的回调两部分来讲的。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/928928-80838951ad6524a9?imageMogr2/auto-orient/strip">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2016/03/11/iOS简单易懂的Block回调使用和解析/"/>
+
+
+
+
+
+  <title> iOS 简单易懂的 Block 回调使用和解析  | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2016/03/11/iOS简单易懂的Block回调使用和解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS 简单易懂的 Block 回调使用和解析 
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-11T00:00:00+08:00">
+                2016-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/03/11/iOS简单易懂的Block回调使用和解析/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/03/11/iOS简单易懂的Block回调使用和解析/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,057
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文主要讲的是 Block 回调的使用，以及 Block 是如何实现这种神奇的回调两部分来讲的。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>老实说在早前我已经学会了如何使用 Block 来做一些方法回调，传递参数的功能，并且用 Block 简单封装了第三方的网络库（AFNetworking）。虽说对 Block 的应用说不上得心应手，但是却是极其地喜欢使用这种设计模式，并且在项目中也大量地使用了。</p>
+<p>但是，最近一位即将参加面试的学弟问我，什么是 Block 呢？我蒙圈了，但是毕竟是学长，我假装淡定地反问道：你所理解的 Block 是什么呢？学弟说：是一段封装的代码块，并可以放在任意位置使用，还可以传递数据。我心里暗喜，这孩子还是图样了，于是语重心长地说：Block 的本质是可以截取自动变量的匿名函数。但是说出这句话我就后悔了，这句话他喵的到底是个什么意思？看着学弟满意地走了之后，我就疯狂地上网查资料，万一下次这个熊孩子深究起来可不就破坏了我英明神武的形象了，但是并没有很满意的答案，大多是照文档描述了 Block 的定义以及基本用法，不然就是高深地去探讨 Block 底层的实现机制，显然这些都不适合让一个初学者既能学会使用又能够没有疑惑地使用。</p>
+<p>本文主要讲的是 <strong>Block 回调的使用</strong>，以及 <strong>Block 是如何实现这种神奇的回调</strong>两部分来讲的。</p>
+<h2 id="Block-回调实现"><a href="#Block-回调实现" class="headerlink" title="Block 回调实现"></a>Block 回调实现</h2><p>不着急，先跟着我实现最简单的 Block 回调传参的使用，如果你能举一反三，基本上可以满足了 OC 中的开发需求。已经实现的同学可以跳到下一节。</p>
+<p>首先解释一下我们例子要实现什么功能（其实是烂大街又最形象的例子）：<br>有两个视图控制器 A 和 B，现在点击 A 上的按钮跳转到视图 B ，并在 B 中的textfield 输入字符串，点击 B 中的跳转按钮跳转回 A ，并将之前输入的字符串<br>显示在 A 中的 label 上。也就是说 A 视图中需要回调 B 视图中的数据。</p>
+<p>想不明白的同学可以看一看最终实现的效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/928928-80838951ad6524a9?imageMogr2/auto-orient/strip" alt="block example"></p>
+<p>这里不再对 <a href="http://blog.csdn.net/totogo2010/article/details/7839061" target="_blank" rel="external">Block 的语法</a>做说明了，不了解的同学可以点<a href="http://blog.csdn.net/totogo2010/article/details/7839061" target="_blank" rel="external">传送门</a>。</p>
+<p>首先，我们需要定义两个试图控制器 AViewController 和 BViewController，现在我们需要思考一下，Block 应该在哪里定义呢？</p>
+<p>我们可以简单地这样思考，需要回调数据的是 A 视图，那么 Block 就应该在 B 中定义，用于获取传入回调数据。</p>
+<p>因此我们在 BViewController.h 中定义如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//BViewController.h</span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>(^CallBackBlcok) (<span class="built_in">NSString</span> *text);<span class="comment">//1</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BViewController</span> : <span class="title">UIViewController</span></span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">copy</span>)CallBackBlcok callBackBlock;<span class="comment">//2</span></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>在这里，代码 1 用 typedef 定义了 <code>void(^) (NSString *text)</code>的别名为 <code>CallBackBlcok</code> 。这样我们就可以在代码 2 中，使用这个别名定义一个 Block 类型的变量 <code>callBackBlock</code>。</p>
+<p>在定义了 <code>callBackBlock</code> 之后，我们可以在 B 中的点击事件中添加 <code>callBackBlock</code> 的传参操作：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//BViewController.m</span></div><div class="line"></div><div class="line">- (<span class="keyword">IBAction</span>)click:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">self</span>.callBackBlock(_textField.text); <span class="comment">//1</span></div><div class="line">    [<span class="keyword">self</span>.navigationController popToRootViewControllerAnimated:<span class="literal">YES</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样我们就可以在想要获取数据回调的地方，也就 A 的视图中调用 block：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// AViewController.m</span></div><div class="line">- (<span class="keyword">IBAction</span>)push:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    BViewController *bVC = [<span class="keyword">self</span>.storyboard instantiateViewControllerWithIdentifier:<span class="string">@"BViewController"</span>];</div><div class="line">    </div><div class="line">    bVC.callBackBlock = ^(<span class="built_in">NSString</span> *text)&#123;   <span class="comment">// 1</span></div><div class="line">        </div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"text is %@"</span>,text);</div><div class="line">        </div><div class="line">        <span class="keyword">self</span>.label.text = text;</div><div class="line">        </div><div class="line">    &#125;;</div><div class="line">    [<span class="keyword">self</span>.navigationController pushViewController:bVC animated:<span class="literal">YES</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码 1 中，通过对回调将 B 中的数据传递到代码块中，并赋值给 A<br>中的 label，实现了整个回调过程。</p>
+<p>上例是通过将 block 直接赋值给 block 属性，也可以通过方法参数的方式传递 block 块。</p>
+<p>由于考虑有的小伙伴翻墙比较困难，完整的示例代码放在 git.oschina.net 上，代码地址：<a href="http://git.oschina.net/xiaodaizi/BlockMagic" target="_blank" rel="external">BlockMagic</a> 。</p>
+<h2 id="关于-Block-的疑惑"><a href="#关于-Block-的疑惑" class="headerlink" title="关于 Block 的疑惑"></a>关于 Block 的疑惑</h2><p>到目前为止，一切看起来都很美好（如果你照着上面的例子做的话），功能正常， A 视图中也获取到数据了。但是某些人可能就要说了，你的代码有问题，你的思路有问题，你这是误人子弟。</p>
+<p>是的，代码的确还有问题，第一个问题就是循环引用的问题，在 A 视图的block 代码块中：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bVC.callBackBlock </span>= ^(NSString *text)&#123;</div><div class="line">       NSLog(@<span class="string">"text is %@"</span>,text)<span class="comment">;     </span></div><div class="line">       self.label<span class="meta">.text</span> = text<span class="comment">;      </span></div><div class="line">    &#125;<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>代码 <code>self.label.text = text;</code> ，在 Block 中引用 self ，也就是 A ，而 A 创建并引用了 B ，而 B 引用 <code>callBackBlock</code>，此时就形成了一个循环引用，而编译器也不会报任何错误，我们需要非常小心这个问题（面试百分百问到我会乱说？）。此时我们通常的解决方法是使用弱引用来解除这个循环：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">    __<span class="keyword">weak</span> <span class="built_in">AViewController</span> *weakSelf = <span class="keyword">self</span>;</div><div class="line">    bVC.callBackBlock = ^(<span class="built_in">NSString</span> *text)&#123; </div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"text is %@"</span>,text);  </div><div class="line"><span class="comment">//        self.label.text = text;  </span></div><div class="line">        weakSelf.label.text = text;</div><div class="line">    &#125;;</div></pre></td></tr></table></figure>
+<p>第二个问题是我自己对 Block 的理解不到位，我们都知道 Block 能截取自动变量，并且是不能在 Block 块中进行修改的（除非用<code>__block</code>修饰符），但是很明显 <code>weakSelf.label.text</code>的值被修改了，并且没有用<code>__block</code>修饰符， 这是为什么呢？因为 <code>label</code> 是个全局变量，而如果像如下的局部变量 <code>a</code> 是不能修改的，编译器也会报错：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/928928-13f64f2fd46f30fa?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="局部变量"></p>
+<p>通过这个小例子发现的两个问题，也算是值得了。</p>
+<h2 id="Block-为什么能实现神奇的回调"><a href="#Block-为什么能实现神奇的回调" class="headerlink" title="Block 为什么能实现神奇的回调"></a>Block 为什么能实现神奇的回调</h2><p>在这里我不会说什么实现原理，仅仅是个人对 Block 能实现神奇回调的理解，有错误的地方请大家指出。</p>
+<p>在先前使用 Block 的过程中，虽然会使用，但是总是有一个疑惑，简单说来就是：</p>
+<p>为什么在 A 中的 block 块能调用到 B 中的数据？</p>
+<p>回顾一下我们在 B 中所实现的代码，不外乎定义了一个 Block 变量，并在适当的时候传入参数，那么为什么在调用了   <code>self.callBackBlock(_textField.text)</code> 之后，值就神奇传到了 A 中的 Block 块了呢？</p>
+<p>通过整理使用的过程，我发现是我们的思维陷入了误区（可能是我个人），我们认为在 B 中传入 <code>_textField.text</code> 参数之后， A 中的 Block 块就可以获取到值。虽然思路是对的，但其实是不完整，导致我们形成了回调的数据是通过某种底层实现传递过去的错觉，这就使得我们认为这不需要深究。</p>
+<p>事实是，通过简单的整理我们可以发现完整的回调流程应该是这样的：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/928928-e4de1ec1692eb173?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="回调流程"></p>
+<ol>
+<li>block 代码块赋值给 <code>bVC.callBackBlock</code>，此时 <code>callBackBlock</code> 的指针就指向这个代码块。</li>
+<li>调用 <code>callBackBlock(NSString *text)</code></li>
+<li><p>由于 <code>callBackBlock</code> 的指针是指向 A 中的 block 代码块，因此执行代码块的代码，实现回调。</p>
+<p>很显然之前我忽略了代码块赋值给 <code>callBackBlock</code> 的这个操作（羞愧）。</p>
+<p>现在再通过一段代码可以更清晰地理解这个原理：</p>
+</li>
+</ol>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> bVC.callBackBlock = ^(NSString *<span class="built_in">text</span>)&#123; <span class="comment">//1</span></div><div class="line">        NSLog(@<span class="string">"text is %@"</span>,<span class="built_in">text</span>);</div><div class="line">    &#125;;</div><div class="line">  bVC.callBackBlock = ^(NSString *<span class="built_in">text</span>)&#123; <span class="comment">//2</span></div><div class="line">        NSLog(@<span class="string">"text b is %@"</span>,<span class="built_in">text</span>);</div><div class="line">    &#125;;</div></pre></td></tr></table></figure>
+<p>上述代码中，我们对 <code>callBackBlock</code>进行了两次赋值，结果会怎么样呢？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/928928-2788415bb549621d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="two block"></p>
+<p>可以看出来，Block 的回调只对代码 2 生效，因为<code>callBackBlock</code>的指针最后指向了代码 2 的代码块。所以并没有什么神奇的魔法，也没什么隐藏的底层机制（这里指的是方便理解的底层）让你可以带着疑惑去使用它。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我这个人学习方法，总结起来就是看到新技术，先在自己的代码里跑一遍，能跑通，并且使用起来没有什么难度，就基本不会深究了（如果遇到某个熊孩子就坑了）。但是自我反思过，这样的学习方法是很不对的，写代码不能不求甚解，如果想要有所突破，不想局限于码农，一定要深入探究一下实现的机制，最起码要保证不带着疑惑去使用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          
+            <a href="/tags/block/" rel="tag"># block</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/01/iOS10添加本地推送（LocalNotification)/" rel="next" title="iOS 10 添加本地推送（Local Notification）">
+                <i class="fa fa-chevron-left"></i> iOS 10 添加本地推送（Local Notification）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/20/在WordPress中使用GithubREADME标签/" rel="prev" title="在 WordPress 中使用 Github README 标签">
+                在 WordPress 中使用 Github README 标签 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-回调实现"><span class="nav-number">2.</span> <span class="nav-text">Block 回调实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-Block-的疑惑"><span class="nav-number">3.</span> <span class="nav-text">关于 Block 的疑惑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-为什么能实现神奇的回调"><span class="nav-number">4.</span> <span class="nav-text">Block 为什么能实现神奇的回调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

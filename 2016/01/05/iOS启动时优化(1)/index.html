@@ -1,0 +1,1011 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Facebook,优化,启动时," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Facebook 工程师通过一系列系统的考量寻求优化解决方案的方式。首先通过建立优化的度量指标，明确优化方向，分解优化目标，分步达到优化目的，最后统一测试优化效果。">
+<meta name="keywords" content="Facebook,优化,启动时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 启动时优化">
+<meta property="og:url" content="http://lin493369.github.io/2016/01/05/iOS启动时优化(1)/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="Facebook 工程师通过一系列系统的考量寻求优化解决方案的方式。首先通过建立优化的度量指标，明确优化方向，分解优化目标，分步达到优化目的，最后统一测试优化效果。">
+<meta property="og:image" content="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xfp1/t39.2365-6/12057214_1016971454990542_827610883_n.png">
+<meta property="og:image" content="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xtp1/t39.2365-6/12056998_991399770918380_262846919_n.png">
+<meta property="og:updated_time" content="2017-04-11T11:35:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 启动时优化">
+<meta name="twitter:description" content="Facebook 工程师通过一系列系统的考量寻求优化解决方案的方式。首先通过建立优化的度量指标，明确优化方向，分解优化目标，分步达到优化目的，最后统一测试优化效果。">
+<meta name="twitter:image" content="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xfp1/t39.2365-6/12057214_1016971454990542_827610883_n.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2016/01/05/iOS启动时优化(1)/"/>
+
+
+
+
+
+  <title> iOS 启动时优化 | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2016/01/05/iOS启动时优化(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS 启动时优化
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-05T00:00:00+08:00">
+                2016-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/01/05/iOS启动时优化(1)/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/01/05/iOS启动时优化(1)/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,752
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Facebook 工程师通过一系列系统的考量寻求优化解决方案的方式。首先通过建立优化的度量指标，明确优化方向，分解优化目标，分步达到优化目的，最后统一测试优化效果。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>译者：本文虽是针对 Facebook 应用的启动时优化，文中所说的大部分优化策略对于小型应用来说意义可能并不是很大，但是重要的是，我们应学习Facebook 工程师通过一系列系统的考量寻求优化解决方案的方式。首先通过建立优化的度量指标，明确优化方向，分解优化目标，分步达到优化目的，最后统一测试优化效果。相较于杂乱无章，碰运气式的优化经验，这种清晰有条理的解决方式，着实令人敬佩。</p>
+<hr>
+<p>提高 Facebook 应用的性能已经成为 Facebook 持续关注的领域。因为我们相信一个高性能的应用能够传递一种吸引人且令人愉悦的体验。每个 Facebook 应用的用户都必须做的一件事是启动应用（我们特指这个动作为 ”应用启动“）。因此，这是一个很好的优化目标。</p>
+<h2 id="稳定的度量"><a href="#稳定的度量" class="headerlink" title="稳定的度量"></a>稳定的度量</h2><p>实现最好的性能度量标准和相应的目标，鼓舞我们专注于提升应用的品质，并且我们相信这将会产生很大的影响。度量必须易懂、经得起推敲，并且需要精确地捕捉到将要被优化的体验。对基于性能的度量，我们已经发现在使用应用过程中，最好是使用那些被捕捉到感知的交互。理想情况下，这些度量应该和一个通过基础设施的单一执行通道有一对一的联系。对于应用程序的启动，确定用于衡量的关键位置是一个挑战。这需要采取几次迭代去简化我们的测量和移除边界问题。</p>
+<p>应用启动是一个特别不固定的概念，因为现在存在很多种应用启动的方式。应用可以在后台或者前台启动，甚至可以在后台启动，但是在完成初始化之前转换为前台。你可以通过点击一条通知或者通过一个 URL 打开应用。Facebook 应用甚至可以通过其他应用来打开，因为他们需要通过 Facebook 来实现第三方登录。在现实场景中，主要的交互还是最直接的方式：你点击桌面的应用图标，然后跳转启动。因而，我们选择这个作为应用启动的入口。</p>
+<p>当启动入口明确之后，我们必须去计算出何时应用启动是完成的。同样地，我们观察用户的使用模式，发现用户喜欢打开应用（首先跳转到新闻摘要），然后等待摘要的加载。我们断定“摘要完成加载”是应用启动一个很好的终点。我们采取了一些微调使得这个终点契合用户的使用情况。我们可以通过重复地观察应用的启动，围绕度量标准来提高应用的性能。</p>
+<p>一旦确定了我们认为有代表性的启动入口和终点，我们把启动问题分解成两种类型：</p>
+<ol>
+<li>冷启动。指的是当应用还没准备好运行时，我们必须加载和构建整个应用。这包括设置屏幕底部的分栏菜单，确保用户是否被合适地登录，以及处理其他更多的事情。“引导”程序是在<code>applicationDidFinishLaunching:withOptions:</code>方法中开始的。</li>
+<li>热启动。指的是应用已经运行但是在后台被挂起（比如用户点击了 home 健），我们只需要知道在何时应用进入后台。在这种情况下，我们的应用通过 <code>applicationWillEnterForeground:</code> 接收到前台的事件，紧接着应用恢复。</li>
+</ol>
+<p>我们决定主要优化冷启动，主要有两个原因。首先，冷启动其实是包括热启动的（冷启动初始化应用并获得摘要；热启动只获得摘要），所以有更多的地方需要优化和微调。第二，冷启动需要做额外的初始化工作，所以相较而言更慢，导致需要更长的启动等待时间。</p>
+<h2 id="优化冷启动体验"><a href="#优化冷启动体验" class="headerlink" title="优化冷启动体验"></a>优化冷启动体验</h2><p>我们把冷启动问题分解成三个阶段，进而我们可以有针对性地解决。每个阶段都有一些列变数和挑战。</p>
+<ol>
+<li>请求时间：从应用启动到摘要请求离开设备（译者：应该是向服务器发送URL请求算结束时间）的时间。</li>
+<li>网络时间：从摘要请求离开设备到服务器响应返回的时间。</li>
+<li>响应处理时间：从响应返回到新数据展示在屏幕的时间。</li>
+</ol>
+<p>我们直观上认为冷启动性能主要被网络请求和响应处理影响了。这个结论是由于我们假定我们在客户端花的时间比较少，并且我们设法让请求的获取更加快速。然而，当我们用 instrument 去检测时，我们发现数据非常出人意料。它展现出了完全不同的结果，我们发现摘要请求花了大部分时间。另外，响应的处理时间也非常短。因此，我们重新把优化的焦点放在初始化阶段。</p>
+<h2 id="摘要请求发送的初始化"><a href="#摘要请求发送的初始化" class="headerlink" title="摘要请求发送的初始化"></a>摘要请求发送的初始化</h2><p>所以为什么这个阶段花费了那么多时间呢？很多 iOS 应用并没有这样一个问题——他们在那个阶段并没有很多工作需要做，除了初始化视图控制器和发送网络请求。然而，对于 Facebook 来说，大部分时间被用来开始的时候去设置不同功能块。下面是我们应用中的主要功能块的流程概览。<br><img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xfp1/t39.2365-6/12057214_1016971454990542_827610883_n.png" alt="这里写图片描述"></p>
+<p>这看起来好像是很复杂的应用启动设置。但需要重视的是，这些功能块对于 Facebook 应用来说是非常重要的提升，可以提高应用体验，并且使得工程师能够在不同的应用规模下更快地开发。</p>
+<p>正如我们所关注的这个流程，我们通过优化独立的部分获得了一些主要的成果。然而，由于未来支持新特性的初始化以及额外提供支持的基础设施，这些成果会慢慢地抵消掉。这使得我们重新考虑如何去解决问题。但我们重新开始，我们认为这个阶段的目标是简单地发送摘要的网络请求。但是为什么摘要请求发出去得这么慢？这是由于很多依赖被添加到摘要的初始化中了。然而，他们并不都是必要的 — 对于摘要请求来说，最少的需要一个有效的验证 token 以及摘要光标（新闻摘要的位置）。因此，我们减少了摘要请求的依赖，让它逐渐地更加接近应用的启动。这允许应用的剩余部分在摘要响应的同时进行初始化。由于这些重构，我们获得了显著的收益。</p>
+<h2 id="网络和服务器时间"><a href="#网络和服务器时间" class="headerlink" title="网络和服务器时间"></a>网络和服务器时间</h2><p>根据我们在第一阶段的经验，我们继续把这个阶段分解成更小的部分。网络请求/响应看起来像这样：<br><img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xtp1/t39.2365-6/12056998_991399770918380_262846919_n.png" alt="这里写图片描述"></p>
+<p>我们注意到，一旦请求正在排队，发送请求出去之后就有一个时间间隔。这很好解释 — 在冷启动中，网络连接并不是一个开放的、安全的 TCP 连接。一个连接的建立需要三次握手，平均为几百毫秒。当摘要请求第一次发送时，无法避免要花掉这些时间。长远来看，这可以通过缓存 SSL 证书来解决。但是再次强调，我们退回来的目的并不是为了发送 TCP 请求，而是为了从服务器通过任何可能的方式获得请求信息。</p>
+<p>我们提出了一个创造性的解决方案 — UDP 启动。本质上，我们在通过 TCP 发送摘要请求时，先发送一个编码过的包含摘要请求的 UDP 包到服务器。这样做的目的是唤醒服务器更早地去获取和缓存数据。当真正的摘要请求通过 TCP 到达时，服务器只需见到地从缓存内容中构造出响应，并发回客户端。这个技术使得我们可以减少几百毫秒的耗时。</p>
+<p>当我们持续深入研究服务器端时，我们开始尝试使用 层-取（story-fetching）策略。过去我们已经做了一批摘要请求的 3+7 层。原因很简单：下载次数和被下载的层成正比。因此，把请求分割成两块，允许开始的三层先进来，其余的七个随后进来。通过提升我们的基础设施，我们已经能够升级为 1+1+X 策略，这已经接近于流了。这样就减少了服务器必须处理第一层的时间，并且能够减少下载的时间，使得可以在最快的时间内与用户交互。通过这样的努力，这样我们又减少了几百毫秒的耗时。</p>
+<h2 id="摘要响应处理"><a href="#摘要响应处理" class="headerlink" title="摘要响应处理"></a>摘要响应处理</h2><p>正如在前面提到的那样，我们以为在启动时会在这里花费大量的时间。但是这个想法被证明是错误的。更加使人好奇的是，我们注意到时间并没有花在处理和加工层上面。时间被花在运行应用服务和竞争资源上面。我们注意到这是我们优化网络和服务器时间的副作用，因为摘要请求返回得太早了。尽管大多数的服务是不重要的。因此，我们开发出一个简单的机制去序列化这些工作直到应用完成启动，并且使用先进先出的方式去执行。这样可以用更少的连接去处理所有层，大大地减少了获得响应和展示在屏幕之间的时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>很难理解我们在过去几个月走了多远。总之，在一对一的比较中，我们发现我们成功地优化了一秒多的耗时。</p>
+<p>优化这个特殊的交互是一个长期的过程，需要建立一个稳定的度量，这个度量必须是易懂的、符合真实世界性能特征，此外要不断地重新思考问题，以提出创新的解决方案。我们希望这可以帮助使用 Facebook 的人有更好的、令人愉悦的用户体验。</p>
+<p>你也可以看看 <a href="https://youtu.be/ifozUqqC0TY?t=11m5s" target="_blank" rel="external">Greg Moeck在 2015 年的演讲</a> 。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Facebook/" rel="tag"># Facebook</a>
+          
+            <a href="/tags/优化/" rel="tag"># 优化</a>
+          
+            <a href="/tags/启动时/" rel="tag"># 启动时</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/" rel="next" title="Swift：带有私有设置方法的公有属性">
+                <i class="fa fa-chevron-left"></i> Swift：带有私有设置方法的公有属性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/27/interesting-discussions-on-swift-evolution/" rel="prev" title="关于 Swift 演变的趣味探讨">
+                关于 Swift 演变的趣味探讨 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#稳定的度量"><span class="nav-number">1.</span> <span class="nav-text">稳定的度量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化冷启动体验"><span class="nav-number">2.</span> <span class="nav-text">优化冷启动体验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要请求发送的初始化"><span class="nav-number">3.</span> <span class="nav-text">摘要请求发送的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络和服务器时间"><span class="nav-number">4.</span> <span class="nav-text">网络和服务器时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要响应处理"><span class="nav-number">5.</span> <span class="nav-text">摘要响应处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

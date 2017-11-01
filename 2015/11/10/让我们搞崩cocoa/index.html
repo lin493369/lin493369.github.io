@@ -1,0 +1,1047 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mikeash,Cocoa,crash,崩溃," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在传统的文章中，我们一直致力于如何编写高效稳定的代码，努力提高代码的鲁棒性。然而在本文中，我们将会改变一下思维方式，采用破坏的方式去挖掘 Cocoa 的一些特性，虽然文中作者表现出一种“病态”的破坏心理，但正因为有这种精神，通过文中那些黑暗代码，可以让我们更加深刻地理解 Cocoa 。">
+<meta name="keywords" content="mikeash,Cocoa,crash,崩溃">
+<meta property="og:type" content="article">
+<meta property="og:title" content="让我们来搞崩 Cocoa 吧（黑暗代码）">
+<meta property="og:url" content="http://lin493369.github.io/2015/11/10/让我们搞崩cocoa/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="在传统的文章中，我们一直致力于如何编写高效稳定的代码，努力提高代码的鲁棒性。然而在本文中，我们将会改变一下思维方式，采用破坏的方式去挖掘 Cocoa 的一些特性，虽然文中作者表现出一种“病态”的破坏心理，但正因为有这种精神，通过文中那些黑暗代码，可以让我们更加深刻地理解 Cocoa 。">
+<meta property="og:updated_time" content="2017-04-13T03:30:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="让我们来搞崩 Cocoa 吧（黑暗代码）">
+<meta name="twitter:description" content="在传统的文章中，我们一直致力于如何编写高效稳定的代码，努力提高代码的鲁棒性。然而在本文中，我们将会改变一下思维方式，采用破坏的方式去挖掘 Cocoa 的一些特性，虽然文中作者表现出一种“病态”的破坏心理，但正因为有这种精神，通过文中那些黑暗代码，可以让我们更加深刻地理解 Cocoa 。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2015/11/10/让我们搞崩cocoa/"/>
+
+
+
+
+
+  <title> 让我们来搞崩 Cocoa 吧（黑暗代码） | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2015/11/10/让我们搞崩cocoa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                让我们来搞崩 Cocoa 吧（黑暗代码）
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-10T00:00:00+08:00">
+                2015-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2015/11/10/让我们搞崩cocoa/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2015/11/10/让我们搞崩cocoa/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,880
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  在传统的文章中，我们一直致力于如何编写高效稳定的代码，努力提高代码的鲁棒性。然而在本文中，我们将会改变一下思维方式，采用破坏的方式去挖掘 Cocoa 的一些特性，虽然文中作者表现出一种“病态”的破坏心理，但正因为有这种精神，通过文中那些黑暗代码，可以让我们更加深刻地理解 Cocoa 。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接=<a href="https://mikeash.com/pyblog/friday-qa-2014-01-10-lets-break-cocoa.html" target="_blank" rel="external">https://mikeash.com/pyblog/friday-qa-2014-01-10-lets-break-cocoa.html</a><br>作者=Mikeash<br>原文日期=2014/01/10</p>
+<hr>
+<p>译者：在传统的文章中，我们一直致力于如何编写高效稳定的代码，努力提高代码的鲁棒性。然而在本文中，我们将会改变一下思维方式，采用破坏的方式去挖掘 Cocoa 的一些特性，虽然文中作者表现出一种“病态”的破坏心理，但正因为有这种精神，通过文中那些黑暗代码，可以让我们更加深刻地理解 Cocoa 。</p>
+<hr>
+<p><a href="https://mikeash.com/pyblog/?tag=letsbuild" target="_blank" rel="external">让我们编写系列</a>文章是这个博客中我最喜欢的部分。但是，有时候搞崩程序比编写他们更有趣。现在，我将要开发一些好玩且不同寻常的方式去让 Cocoa 崩溃。</p>
+<h2 id="带有-NUL-的字符串"><a href="#带有-NUL-的字符串" class="headerlink" title="带有 NUL 的字符串"></a>带有 NUL 的字符串</h2><p>NUL（译者：应该为 ‘\0’） 字符在 ASCII 和 Unicode 中代表 0，是一个不寻常的麻烦鬼。当在 C 字符串中时，它不作为一个字符，而是一个代表字符串结束的标识符。在其他的上下文环境中，它就会跟其他字符一样了。</p>
+<p>当你混合 C 字符串和其它上下文环境，就会产生很有趣的结果。例如：<code>NSString</code> 对象，使用 NUL 字符毫无问题：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NSString *s = @<span class="string">"abc\0def"</span><span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>如果我们认真的话，我们可以使用 lldb 打印它：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(lldb) p (void)<span class="string">[[NSFileHandle fileHandleWithStandardOutput] writeData: [s dataUsingEncoding: 5]]</span></div><div class="line">abcdef</div></pre></td></tr></table></figure></p>
+<p>然而，展示这个字符串更为典型的方式是，字符串被当做 C 字符串在某个点结束。由于 ‘\0’ 字符意味着 C 字符串的结尾，因此字符串会在转换时缩短：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(lldb) <span class="keyword">po</span> s</div><div class="line"><span class="keyword">abc</span></div><div class="line">(lldb) <span class="keyword">p</span> (void)NSLog(s)</div><div class="line">LetsBreakCocoa[<span class="number">16689</span>:<span class="number">303</span>] <span class="keyword">abc</span></div></pre></td></tr></table></figure></p>
+<p>原始的字符已然包含预计的字符数量：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(lldb) p [s length]</div><div class="line">(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>) $<span class="number">1</span> = <span class="number">7</span></div></pre></td></tr></table></figure></p>
+<p>试图对这个字符串进行操作会让你真正感到困惑：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(lldb) <span class="keyword">po</span> [s stringByAppendingPathExtension: @<span class="string">"txt"</span>]</div><div class="line"><span class="keyword">abc</span></div></pre></td></tr></table></figure></p>
+<p>如果你不知道字符串的中间包含一个 NUL ，这类问题会让你感到这个世界满满的恶意。</p>
+<p>一般来说，你不会遇到 NUL 字符，但是它很有可能通过加载外部资源的数据进来。<code>-initWithData:encoding:</code> 会很轻易地读入零比特并且在返回的 <code>NSString</code> 中产生 NUL 字符。</p>
+<h2 id="循环容器"><a href="#循环容器" class="headerlink" title="循环容器"></a>循环容器</h2><p>这里有一个数组：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *a = [<span class="built_in">NSMutableArray</span> array];</div></pre></td></tr></table></figure>
+<p>这里有一个数组包含其他的数据：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NSMutableArray *a = [NSMutableArray array]<span class="comment">;</span></div><div class="line">   NSMutableArray *<span class="keyword">b </span>= [NSMutableArray array]<span class="comment">;</span></div><div class="line">   [a <span class="keyword">addObject: </span><span class="keyword">b];</span></div></pre></td></tr></table></figure></p>
+<p>目前为止，看起来还不错。现在我们让一个数组包含自身：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSMutableArray *a = [NSMutableArray array]<span class="comment">;</span></div><div class="line">[a <span class="keyword">addObject: </span>a]<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>猜猜会打印出什么？</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NSLog(<span class="meta">@"%</span><span class="meta">@",</span> a);</div></pre></td></tr></table></figure>
+<p>以下就是调用堆栈的信息（译者：bt 命令为打印调用堆栈的信息）：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">   (<span class="keyword">lldb) </span><span class="keyword">bt</span></div><div class="line">* thread <span class="comment">#1: tid = 0x43eca, 0x00007fff8952815a CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 154, queue = 'com.apple.main-thread, stop reason = EXC_BAD_ACCESS (code=2, address=0x7fff5f3ffff8)</span></div><div class="line">                   frame <span class="comment">#0: 0x00007fff8952815a CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 154</span></div><div class="line">                   frame <span class="comment">#1: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#2: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#3: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#4: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#5: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#6: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#7: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#8: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#9: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#10: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div><div class="line">                   frame <span class="comment">#11: 0x00007fff895282da CoreFoundation`-[NSArray descriptionWithLocale:indent:] + 538</span></div></pre></td></tr></table></figure></p>
+<p>这里还删除了上千个栈帧。描述方法无法处理递归容器，所以它持续尝试去追踪到“树”的结束，并最终发生异常。</p>
+<p>我们可以用它跟自身比较对等性：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">NSLog</span>(@<span class="string">"%d"</span>, [a <span class="attribute">isEqual</span>: a]);</div></pre></td></tr></table></figure>
+<p>这姑且看起来是 YES。让我们创造另一个结构上相同的数组 b 然后用 a 和它比较：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NSMutableArray *<span class="keyword">b </span>= [NSMutableArray array]<span class="comment">;</span></div><div class="line">   [<span class="keyword">b </span><span class="keyword">addObject: </span><span class="keyword">b];</span></div><div class="line">   NSLog(@<span class="string">"%d"</span>, [a isEqual: <span class="keyword">b]);</span></div></pre></td></tr></table></figure>
+<p>很抱歉：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">lldb) </span><span class="keyword">bt</span></div><div class="line">* thread <span class="comment">#1: tid = 0x4412a, 0x00007fff8946a8d7 CoreFoundation`-[NSArray isEqualToArray:] + 103, queue = 'com.apple.main-thread, stop reason = EXC_BAD_ACCESS (code=2, address=0x7fff5f3fff28)</span></div><div class="line">                frame <span class="comment">#0: 0x00007fff8946a8d7 CoreFoundation`-[NSArray isEqualToArray:] + 103</span></div><div class="line">                frame <span class="comment">#1: 0x00007fff8946f6b7 CoreFoundation`-[NSArray isEqual:] + 71</span></div><div class="line">                frame <span class="comment">#2: 0x00007fff8946aa07 CoreFoundation`-[NSArray isEqualToArray:] + 407</span></div><div class="line">                frame <span class="comment">#3: 0x00007fff8946f6b7 CoreFoundation`-[NSArray isEqual:] + 71</span></div><div class="line">                frame <span class="comment">#4: 0x00007fff8946aa07 CoreFoundation`-[NSArray isEqualToArray:] + 407</span></div><div class="line">                frame <span class="comment">#5: 0x00007fff8946f6b7 CoreFoundation`-[NSArray isEqual:] + 71</span></div><div class="line">                frame <span class="comment">#6: 0x00007fff8946aa07 CoreFoundation`-[NSArray isEqualToArray:] + 407</span></div><div class="line">                frame <span class="comment">#7: 0x00007fff8946f6b7 CoreFoundation`-[NSArray isEqual:] + 71</span></div><div class="line">                frame <span class="comment">#8: 0x00007fff8946aa07 CoreFoundation`-[NSArray isEqualToArray:] + 407</span></div><div class="line">                frame <span class="comment">#9: 0x00007fff8946f6b7 CoreFoundation`-[NSArray isEqual:] + 71</span></div></pre></td></tr></table></figure>
+<p>对等性检查同样也不知道如何处理递归容易。</p>
+<h2 id="循环视图"><a href="#循环视图" class="headerlink" title="循环视图"></a>循环视图</h2><p>你可以用<code>NSView</code>实例做同样的实验：<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NSWindow *win = <span class="comment">[self window]</span>;</div><div class="line">NSView *a = <span class="comment">[<span class="comment">[NSView alloc]</span> initWithFrame: NSMakeRect(0, 0, 1, 1)]</span>;</div><div class="line"><span class="comment">[a addSubview: a]</span>;</div><div class="line"><span class="comment">[<span class="comment">[win contentView]</span> addSubview: a]</span>;</div></pre></td></tr></table></figure></p>
+<p>为了让这个程序崩溃，你只需要尝试去显示视窗。你甚至不需要去打印一个描述或者做对等性比较。当试图去显示视窗时，应用就会由于尝试去追踪底部的视图结构而崩溃。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">lldb) </span><span class="keyword">bt</span></div><div class="line"> * thread <span class="comment">#1: tid = 0x458bf, 0x00007fff8c972528 AppKit`NSViewGetVisibleRect + 130, queue = 'com.apple.main-thread, stop reason = EXC_BAD_ACCESS (code=2, address=0x7fff5f3ffff8)</span></div><div class="line">                 frame <span class="comment">#0: 0x00007fff8c972528 AppKit`NSViewGetVisibleRect + 130</span></div><div class="line">                 frame <span class="comment">#1: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#2: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#3: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#4: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#5: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#6: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#7: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#8: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#9: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#10: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#11: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#12: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#13: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#14: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#15: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#16: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#17: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#18: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#19: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div><div class="line">                 frame <span class="comment">#20: 0x00007fff8c9725c6 AppKit`NSViewGetVisibleRect + 288</span></div></pre></td></tr></table></figure></p>
+<p>Hash Abuse</p>
+<h2 id="滥用-Hash"><a href="#滥用-Hash" class="headerlink" title="滥用 Hash"></a>滥用 Hash</h2><p>让我们创建一个实例一直等于其他类的类 AlwaysEqual，但是 hash 值并不一样：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@interface</span> <span class="attribute">AlwaysEqual </span>: NSObject <span class="variable">@end</span></div><div class="line"><span class="variable">@implementation</span> AlwaysEqual</div><div class="line"></div><div class="line">- (BOOL)<span class="attribute">isEqual</span>: (id)object &#123; <span class="selector-tag">return</span> <span class="selector-tag">YES</span>; &#125;</div><div class="line"><span class="selector-tag">-</span> (NSUInteger)<span class="selector-tag">hash</span> &#123; <span class="selector-tag">return</span> <span class="selector-tag">random</span>(); &#125;</div><div class="line"></div><div class="line">@<span class="selector-tag">end</span></div></pre></td></tr></table></figure></p>
+<p>这显然违反了 Cocoa 的要求，当两个对象被认为是相等时，他们的 hash 应该总是返回相等的值。当然，这不是非常严格的强制要求，所以上述代码依然可以编译和运行。</p>
+<p>让我们添加一个实例到 <code>NSMutableSet</code> 中：<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NSMutableSet *<span class="keyword">set</span> = [NSMutableSet <span class="comment">set]</span>;</div><div class="line"><span class="keyword">for</span>(;;)</div><div class="line">&#123;</div><div class="line">    AlwaysEqual *obj = [[AlwaysEqual alloc] init];</div><div class="line">    [<span class="keyword">set</span> addObject: obj];</div><div class="line">    NSLog(@<span class="string">"%@"</span>, <span class="keyword">set</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这产生了一个有趣的日志：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span></div><div class="line">)&#125;</div><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ec40</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span></div><div class="line">)&#125;</div><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ec40</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span></div><div class="line">)&#125;</div><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ec40</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001f930</span>&gt;</span></div><div class="line">)&#125;</div><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ec40</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001f930</span>&gt;</span></div><div class="line">)&#125;</div><div class="line">LetsBreakCocoa[17069:303] &#123;(</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ec40</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001ed70</span>&gt;</span>,</div><div class="line">                <span class="tag">&lt;<span class="name">AlwaysEqual:</span> <span class="attr">0x61000001f930</span>&gt;</span></div><div class="line">)&#125;</div></pre></td></tr></table></figure></p>
+<p>每次运行都不能保证一样，但是综合看起来就是这样。<code>addObject:</code>通常先添加一个新对象，然后在更多的对象添加进来的时候很少成功，最后顶部只有三个对象。现在这个集合包含三个看起来是独一无二的对象，而且看起来应该不会包含更多的对象了。所以，在重写 <code>isEqual:</code> 时总是应该重写 <code>hash</code>方法。</p>
+<h2 id="滥用-Selector"><a href="#滥用-Selector" class="headerlink" title="滥用 Selector"></a>滥用 Selector</h2><p>Selector 是一个特殊的数据类型，在运行期用于表示方法名。在我们习惯中，它们必须是独一无二的字符串，尽管它们并不是严格地要求是字符串。在现在的 Objective-C  运行期，它们是字符串，并且我们都知道利用 Selector 去搞崩程序是很好玩儿的事。</p>
+<p>马上行动，下面就是一个例子：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SEL </span><span class="keyword">sel </span>= (<span class="keyword">SEL)"";</span></div><div class="line">[NSObject performSelector: <span class="keyword">sel];</span></div></pre></td></tr></table></figure></p>
+<p>当编译和运行之后，在运行期产生了很令人费解的错误：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LetsBreakCocoa[<span class="number">17192</span>:<span class="number">303</span>] *** NSForwarding: warning: <span class="keyword">selector</span> (<span class="number">0</span>x100001f86) <span class="keyword">for</span> message <span class="string">''</span> does <span class="keyword">not</span> match <span class="keyword">selector</span> known <span class="keyword">to</span> Objective C runtime (<span class="number">0</span>x6100000181f0)-- abort</div><div class="line">LetsBreakCocoa[<span class="number">17192</span>:<span class="number">303</span>] +[NSObject ]: unrecognized <span class="keyword">selector</span> sent <span class="keyword">to</span> <span class="keyword">class</span> <span class="number">0</span>x7fff75570810</div></pre></td></tr></table></figure>
+<p>通过创建奇怪的 selector，会产生真正奇怪的错误：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SEL sel = (SEL)<span class="string">"]: unrecognized selector sent to class 0x7fff75570810"</span>;</div><div class="line">[NSObject performSelector: sel];</div><div class="line"></div><div class="line">LetsBreakCocoa[<span class="number">17262</span>:<span class="number">303</span>] +[NSObject ]: unrecognized selector sent <span class="keyword">to</span> <span class="built_in">class</span> <span class="number">0x7fff75570810</span>]: unrecognized selector sent <span class="keyword">to</span> <span class="built_in">class</span> <span class="number">0x7fff75570810</span></div></pre></td></tr></table></figure>
+<p>你甚至让错误看起来像是停止响应完整信息的 NSObject ：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SEL sel = (SEL)<span class="string">"alloc"</span>;</div><div class="line">[NSObject performSelector: sel];</div><div class="line"></div><div class="line">LetsBreakCocoa[<span class="number">46958</span>:<span class="number">303</span>] *** NSForwarding: warning: selector (<span class="number">0x100001f77</span>) <span class="keyword">for</span> message 'alloc' <span class="keyword">does</span> <span class="keyword">not</span> match selector known <span class="keyword">to</span> Objective C runtime (<span class="number">0x7fff8d38d879</span>)<span class="comment">-- abort</span></div><div class="line">LetsBreakCocoa[<span class="number">46958</span>:<span class="number">303</span>] +[NSObject alloc]: unrecognized selector sent <span class="keyword">to</span> <span class="built_in">class</span> <span class="number">0x7fff75570810</span></div></pre></td></tr></table></figure></p>
+<p>显然，这不是真正的 alloc selector，它是一个碰巧指向一个包含 “alloc” 字符串的伪装 selector。但是，runtime 依然把它打印为 alloc 。</p>
+<h2 id="伪造对象"><a href="#伪造对象" class="headerlink" title="伪造对象"></a>伪造对象</h2><p>虽然现在越来越复杂，但是 Objective-C 依然是分配给所有对象类的大内存中的一小块内存。在这样的思维下，我们就可以创造一个伪造对象：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">id</span> obj = (__bridge <span class="keyword">id</span>)(<span class="keyword">void</span> *)&amp;(Class)&#123; [<span class="built_in">NSObject</span> <span class="keyword">class</span>] &#125;;</div></pre></td></tr></table></figure></p>
+<p>这些伪造对象也完全能工作：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *array = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">id</span> obj = (__bridge <span class="keyword">id</span>)(<span class="keyword">void</span> *)&amp;(Class)&#123; [<span class="built_in">NSObject</span> <span class="keyword">class</span>] &#125;;</div><div class="line">    [array addObject: obj];</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, array);</div></pre></td></tr></table></figure></p>
+<p>上述代码不仅可以运行并且打印日志如下：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">LetsBreakCocoa</span><span class="selector-attr">[17543:303]</span> (</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span>,</div><div class="line">       <span class="string">"&lt;NSObject: 0x7fff5fbfe760&gt;"</span></div><div class="line">   )</div></pre></td></tr></table></figure></p>
+<p>可惜的是，看起来所有伪造对象都是以同样的地址结束的。但是还是可以继续工作的。好了，当你退出方法并且 autorelease pool 试图去清理时：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">lldb) </span><span class="keyword">bt</span></div><div class="line">* thread <span class="comment">#1: tid = 0x46790, 0x00007fff8b3d55c9 libobjc.A.dylib`realizeClass(objc_class*) + 156, queue = 'com.apple.main-thread, stop reason = EXC_BAD_ACCESS (code=1, address=0x7fff00006000)</span></div><div class="line">    frame <span class="comment">#0: 0x00007fff8b3d55c9 libobjc.A.dylib`realizeClass(objc_class*) + 156</span></div><div class="line">    frame <span class="comment">#1: 0x00007fff8b3d820c libobjc.A.dylib`lookUpImpOrForward + 98</span></div><div class="line">    frame <span class="comment">#2: 0x00007fff8b3cb169 libobjc.A.dylib`objc_msgSend + 233</span></div><div class="line">    frame <span class="comment">#3: 0x00007fff8940186f CoreFoundation`CFRelease + 591</span></div><div class="line">    frame <span class="comment">#4: 0x00007fff89414ad9 CoreFoundation`-[__NSArrayM dealloc] + 185</span></div><div class="line">    frame <span class="comment">#5: 0x00007fff8b3cd65a libobjc.A.dylib`(anonymous namespace)::AutoreleasePoolPage::pop(void*) + 502</span></div><div class="line">    frame <span class="comment">#6: 0x00007fff89420d72 CoreFoundation`_CFAutoreleasePoolPop + 50</span></div><div class="line">    frame <span class="comment">#7: 0x00007fff8551ada7 Foundation`-[NSAutoreleasePool drain] + 147</span></div></pre></td></tr></table></figure></p>
+<p>因为这些伪造对象没有合适分配内存，所以一旦autorelease pool 试图在方法返回时去操作它们，就会出现严重的错误，并且内存会被重写。</p>
+<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p>下面是一个类数组：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *classes = @[</div><div class="line">      [<span class="built_in">NSObject</span> <span class="keyword">class</span>],</div><div class="line">      [<span class="built_in">NSString</span> <span class="keyword">class</span>],</div><div class="line">      [<span class="built_in">NSView</span> <span class="keyword">class</span>]</div><div class="line">  ];</div><div class="line">  <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, classes);</div><div class="line">  LetsBreakCocoa[<span class="number">17726</span>:<span class="number">303</span>] (</div><div class="line">      <span class="built_in">NSObject</span>,</div><div class="line">      <span class="built_in">NSString</span>,</div><div class="line">      <span class="built_in">NSView</span></div><div class="line">  )</div></pre></td></tr></table></figure></p>
+<p>下面一个这些类实例的数组：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NSArray *<span class="keyword">instances </span>= [classes valueForKeyPath: @<span class="string">"alloc.init.autorelease"</span>]<span class="comment">;</span></div><div class="line">NSLog(@<span class="string">"%@"</span>, <span class="keyword">instances);</span></div><div class="line">LetsBreakCocoa[<span class="number">17726</span>:<span class="number">303</span>] (</div><div class="line">    <span class="string">"&lt;NSObject: 0x61000000a600&gt;"</span>,</div><div class="line">    <span class="string">""</span>,</div><div class="line">    <span class="string">"&lt;NSView: 0x610000136bc0&gt;"</span></div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>键值编码并不意味着要这样使用，但是看起来也可以正常运行。</p>
+<h2 id="调用者检查"><a href="#调用者检查" class="headerlink" title="调用者检查"></a>调用者检查</h2><p>编译器的 <code>builtin __builtin_return_address</code> 方法可以返回调用你的代码的地址：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> *addr = <span class="number">__</span>builtin<span class="number">_</span><span class="keyword">return</span><span class="number">_</span>address(<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>因此，我们可以获取调用者的信息，包括它的名字：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Dl_info</span> <span class="meta">info</span><span class="comment">;</span></div><div class="line"><span class="symbol">dladdr</span>(<span class="keyword">addr, </span>&amp;<span class="meta">info</span>)<span class="comment">;</span></div><div class="line"><span class="symbol">NSString</span> *callerName = [NSString <span class="keyword">stringWithUTF8String: </span><span class="meta">info</span>.dli_sname]<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>通过这个，我们可以做一些穷凶极恶的事（译者：并不认为是穷凶极恶的事，反而可作为调用动态方法的一种可选方法，虽然并不可靠），比如说完全可以根据不同的调用者调用合适的方法：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CallerInspection</span> : <span class="title">NSObject</span> @<span class="title">end</span></span></div><div class="line"> <span class="class"><span class="keyword">@implementation</span> <span class="title">CallerInspection</span></span></div><div class="line"></div><div class="line"> - (<span class="keyword">void</span>)method</div><div class="line"> &#123;</div><div class="line">     <span class="keyword">void</span> *addr = __builtin_return_address(<span class="number">0</span>);</div><div class="line">     Dl_info info;</div><div class="line">     dladdr(addr, &amp;info);</div><div class="line">     <span class="built_in">NSString</span> *callerName = [<span class="built_in">NSString</span> stringWithUTF8String: info.dli_sname];</div><div class="line">     <span class="keyword">if</span>([callerName isEqualToString: <span class="string">@"__CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__"</span>])</div><div class="line">         <span class="built_in">NSLog</span>(<span class="string">@"Do some notification stuff"</span>);</div><div class="line">     <span class="keyword">else</span></div><div class="line">         <span class="built_in">NSLog</span>(<span class="string">@"Do some regular stuff"</span>);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">@end</span></div></pre></td></tr></table></figure></p>
+<p>这里是一些测试的代码：<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">id obj = [[<span class="symbol">CallerInspection</span> alloc] init];</div><div class="line">  [[<span class="symbol">NSNotificationCenter</span> defaultCenter] addObserver: obj selector: @selector(method) name: @<span class="string">"notification"</span> object: obj];</div><div class="line">  [[<span class="symbol">NSNotificationCenter</span> defaultCenter] postNotificationName: @<span class="string">"notification"</span> object: obj];</div><div class="line">  [obj method];</div><div class="line"></div><div class="line">  <span class="symbol">LetsBreakCocoa</span>[<span class="number">47427</span>:<span class="number">303</span>] <span class="symbol">Do</span> some notification stuff</div><div class="line">  <span class="symbol">LetsBreakCocoa</span>[<span class="number">47427</span>:<span class="number">303</span>] <span class="symbol">Do</span> some regular stuff</div></pre></td></tr></table></figure></p>
+<p>当然，这种方式不是很可靠，因为 <code>__CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__</code>是 Apple 的内部符号，并且很有可能在未来修改。</p>
+<h2 id="Dealloc-Swizzle"><a href="#Dealloc-Swizzle" class="headerlink" title="Dealloc Swizzle"></a>Dealloc Swizzle</h2><p>让我们使用 swizzle （方法调配技术）去调配<code>-[NSObject dealloc]</code>到一个不做任何事情的方法。在 ARC 下获得 @selector(dealloc) 有点棘手，因为我们不能直接读取它了：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">Method</span> <span class="title">m</span> = <span class="title">class_getInstanceMethod</span><span class="params">([NSObject <span class="keyword">class</span>], sel_getUid("dealloc")</span>);</span></div><div class="line">method_setImplementation(m, imp_implementationWithBlock(^<span class="comment">&#123;&#125;</span>));</div></pre></td></tr></table></figure>
+<p>现在我们坐下来欣赏这个例子所产生的混乱（简直就是代码界的黑暗料理）：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">for</span>(;;)</div><div class="line">    @<span class="keyword">autoreleasepool</span> &#123;</div><div class="line">        <span class="selector-attr">[[NSObject alloc]</span> <span class="selector-tag">init</span>];</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>调配 dealloc 方法导致这个代码完美且合理地疯狂泄露，因为对象不能在任何地方被摧毁。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>用全新和有趣的方法搞崩 Cocoa 能够提供无尽的娱乐性。这也在真实的代码里体现出来了。想起我第一次遇到字符串中嵌入了 NUL ，那是充满痛苦的调试经历。其他只是为了好玩和适当的教学目的。</p>
+<blockquote>
+<p>That’s it for today! Come back next time for more fun and games.<br>Friday Q&amp;A is driven by reader suggestions, as always, so if you have<br>something you’d like to see discussed here, send it in!</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mikeash/" rel="tag"># mikeash</a>
+          
+            <a href="/tags/Cocoa/" rel="tag"># Cocoa</a>
+          
+            <a href="/tags/crash/" rel="tag"># crash</a>
+          
+            <a href="/tags/崩溃/" rel="tag"># 崩溃</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/16/Swift中的函数式编程/" rel="next" title="Swift 中的函数式编程">
+                <i class="fa fa-chevron-left"></i> Swift 中的函数式编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/09/WatchConnectivity--通过用户信息共享所有数据/" rel="prev" title="【WatchOS 2教程系列四】WatchConnectivity：通过用户信息共享所有数据">
+                【WatchOS 2教程系列四】WatchConnectivity：通过用户信息共享所有数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带有-NUL-的字符串"><span class="nav-number">1.</span> <span class="nav-text">带有 NUL 的字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环容器"><span class="nav-number">2.</span> <span class="nav-text">循环容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环视图"><span class="nav-number">3.</span> <span class="nav-text">循环视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滥用-Hash"><span class="nav-number">4.</span> <span class="nav-text">滥用 Hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滥用-Selector"><span class="nav-number">5.</span> <span class="nav-text">滥用 Selector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪造对象"><span class="nav-number">6.</span> <span class="nav-text">伪造对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC"><span class="nav-number">7.</span> <span class="nav-text">KVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用者检查"><span class="nav-number">8.</span> <span class="nav-text">调用者检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dealloc-Swizzle"><span class="nav-number">9.</span> <span class="nav-text">Dealloc Swizzle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1002 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Tomasz Szulc," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。">
+<meta name="keywords" content="Tomasz Szulc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xcode:用于管理多个 target 配置的 XCConfig 文件">
+<meta property="og:url" content="http://lin493369.github.io/2015/11/24/Xcode-用于管理多个target配置的XCConfig文件/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。">
+<meta property="og:image" content="http://szulctomasz.com/wp-content/uploads/2015/11/diagram_1.png">
+<meta property="og:updated_time" content="2017-04-13T03:33:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xcode:用于管理多个 target 配置的 XCConfig 文件">
+<meta name="twitter:description" content="让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。">
+<meta name="twitter:image" content="http://szulctomasz.com/wp-content/uploads/2015/11/diagram_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2015/11/24/Xcode-用于管理多个target配置的XCConfig文件/"/>
+
+
+
+
+
+  <title> Xcode:用于管理多个 target 配置的 XCConfig 文件 | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2015/11/24/Xcode-用于管理多个target配置的XCConfig文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Xcode:用于管理多个 target 配置的 XCConfig 文件
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-24T00:00:00+08:00">
+                2015-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2015/11/24/Xcode-用于管理多个target配置的XCConfig文件/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2015/11/24/Xcode-用于管理多个target配置的XCConfig文件/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,582
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接:<br><a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/</a><br>作者:<br>Tomasz Szulc<br>原文日期:<br>2015/11/14</p>
+<hr>
+<p>让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。</p>
+<p>今天我本计划学习一些新东西，因此我搜索了 <a href="https://github.com/mozilla/firefox-ios" target="_blank" rel="external">mozilla/firefox-ios</a> 库（译者：这是在火狐浏览器在 github 的一个开源项目）的相关信息，接着我发现他们会在项目中使用大量的配置文件。</p>
+<p>我曾经在几个项目中使用 XCConfig ，但是我并没有在现在开发的项目中使用它。因为这个项目有多个不同配置的 target，因此我开始思考如何才能有效且简单地管理这些 target 。</p>
+<h2 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h2><p>这个项目现在已经被我的团队接手了。客户的团队先开发了大约一年半的时间，最后决定将项目完全外包出去。这个项目一个麻烦的事就是 target 有不同的配置，因此如何更好地解决，是个棘手的问题。</p>
+<p>项目由十个应用 target 组成，两个总的 target 做些业务，以及一个测试 target 。每一个 target 使用不同的尾部和不同的 “api keys”，以及其他像用于hockeyapp（HockeyApp 是一个用来分发你的程序并收集应用的崩溃报告的收集框架，类似友盟） token 的键（key）。每一个 target 有自己的预处理宏，如：“TARGET_A”, “TARGET_B”等…（虚构的名字）。然后，token，api keys，后端的 url 被存储在 plist 文件中。因此很自然地，就需要一些类来封装这个文件，并且有语法分析程序以及可以提供给我们适当的键。这个类有超过两百行的代码，对我来说，仅仅阅读这些数据就要花费很多时间。</p>
+<p>因此，我想可能可以使用 XCConfig 文件来简化和替代使用语法分析程序和十个个预处理宏（一个 target）去决定从 plist 文件应该返回什么值。你可以在下面找到我的解决方案。可能不是最好的方案，但是此刻应该是最好的。如果你有更好的方案，我很愿意去拜读 :)</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>核心思想是使用一些有层级的配置文件。第一层是用于存储最普通的数据，第二层用于区分debug和release模式，最后一层用于关联特殊 target 的设置。</p>
+<p><img src="http://szulctomasz.com/wp-content/uploads/2015/11/diagram_1.png" alt="这里写图片描述"></p>
+<h2 id="Common-xcconfig"><a href="#Common-xcconfig" class="headerlink" title="Common.xcconfig"></a>Common.xcconfig</h2><p>这个文件存储着类似应用名称，应用版本，bundle version，以及其他 debug和 release target 中通用的常见配置。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Common.xcconfig</span></div><div class="line"><span class="comment">//  &lt;truncated&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line">APP_NAME = App</div><div class="line">APP_VERSION = <span class="number">1.6</span></div><div class="line">APP_BUNDLE_ID = <span class="number">153</span></div></pre></td></tr></table></figure>
+<p>考虑到为十个 target 改变相应的应用版本和 bundle 可能会消耗很多时间。其他的选项可能会创建聚合的 target ，这样可以在每次 Cmd+B的时候更新Info-plist 文件，但是我会避免这样的情况并且让项目不会比现在更复杂。</p>
+<h2 id="Common-debug-和-Common-release"><a href="#Common-debug-和-Common-release" class="headerlink" title="Common.debug 和 Common.release"></a>Common.debug 和 Common.release</h2><p>这个文件能够存储可用于debug和release target的最常用配置。文件包含Common.xcconfig并且能够重写它的变量。如：你可以通过重写一个变量，轻易地把每个debug target 的应用名称改为“App Debug”。对于存储常见的用于开发和发行版本target的 API Key，这里也是很好的地方。</p>
+<p><strong><em>提示：使用通用配置文件和 CocoaPods</em></strong></p>
+<p>如果你使用 CocoaPods，你应该相应地在你的配置文件之一中包括（include）Pods.debug.xcconfig 或者 Pods.release.xcconfig。我推荐先在项目信息标签中设置你的配置文件然后执行 <code>pod install</code>去让Pod 项目重新配置。在安装之后，你应该及时地把 Pod 配置文件中的其中一个包括（include）到你自己的文件中去。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Error:</div><div class="line">[!] CocoaPods did not <span class="keyword">set</span> the base configuration <span class="keyword">of</span> your <span class="keyword">project</span> because your <span class="keyword">project</span> already has a custom config set. <span class="keyword">In</span> <span class="keyword">order</span> <span class="keyword">for</span> CocoaPods integration <span class="keyword">to</span> <span class="keyword">work</span> <span class="keyword">at</span> all, please either <span class="keyword">set</span> the base configurations <span class="keyword">of</span> the target TARGET_NAME <span class="keyword">to</span> Pods/Target Support Files/Pods/Pods.debug.xcconfig <span class="keyword">or</span> <span class="keyword">include</span> the Pods/Target Support Files/Pods/Pods.debug.xcconfig <span class="keyword">in</span> your <span class="keyword">build</span> configuration.</div></pre></td></tr></table></figure>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Common.debug.xcconfig</span></div><div class="line"><span class="comment">//  &lt;truncated&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Common.xcconfig"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Pods/Target Support Files/Pods/Pods.debug.xcconfig"</span></span></div><div class="line"></div><div class="line">APP_NAME = App <span class="keyword">Debug</span></div><div class="line">API_KEY_A = API_KEY_HERE</div><div class="line">API_KEY_B = API_KEY_HERE</div></pre></td></tr></table></figure>
+<h2 id="PerTarget-xcconfig"><a href="#PerTarget-xcconfig" class="headerlink" title="PerTarget.xcconfig"></a>PerTarget.xcconfig</h2><p>我确实不需要在这个层级使用 debug/release 配置文件（因为项目中的其他遗留问题），所以我只是用包括适当的 Common.debug.xcconfig 或者 Common.release.xcconfig 的  PerTarget.xcconfig 文件。但是最好应该有 debug 和 release 配置文件。在这个层级，你可以配置关联到特殊 target 的东西。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Develop.xcconfig</span></div><div class="line"><span class="comment">//  &lt;truncated&gt;</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line"><span class="selector-id">#include</span> <span class="string">"Common.debug.xcconfig"</span></div><div class="line"></div><div class="line">BACKEND_URL = http:\/\/develop<span class="selector-class">.api</span><span class="selector-class">.szulctomasz</span><span class="selector-class">.com</span></div><div class="line">SOME_KEY_A = VALUE_HERE</div><div class="line">SOME_KEY_B = VALUE_HERE</div></pre></td></tr></table></figure>
+<h2 id="访问变量"><a href="#访问变量" class="headerlink" title="访问变量"></a>访问变量</h2><p>所有的配置文件被存储了。现在是时候去使用他们了。像我例子中有这么多的target，我可以把 Info.plist 文件的数量减少到只有一个，由于所有的不同的地方都已经在 xcconfig 文件中了，所以这一个文件可以替代多个文件。</p>
+<p>你可以看到在你通过这些配置文件构建应用之后，有一些值出现在项目的 Build Setting 的 “User-Defined”部分。</p>
+<p>如果你想要使用配置文件中的变量，例如，在一个target的 Info.plist 文件中，你需要使用这种写法：<code>$(VARIABLE)</code>。使用这种方式，你可以设置“Bundle Identifier”, “Bundle name”, “Bundle version”以及其他你想要配置的事项。</p>
+<p>在代码中访问其他变量看起来有点不一样，我发现最简单的方法就是在 Info.plist 中创建附加的区域，通过使用相同的变量名称和使用上述的写法去设置值。这样你就可以在你的代码中读到这些值。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> dictionary = <span class="type">NSBundle</span>.mainBundle().infoDictionary &#123;</div><div class="line">    <span class="keyword">let</span> appName = dictionary[<span class="string">"APP_NAME"</span>] <span class="keyword">as</span>! <span class="type">String</span></div><div class="line">    <span class="keyword">let</span> appVersion = dictionary[<span class="string">"APP_VERSION"</span>] <span class="keyword">as</span>! <span class="type">String</span></div><div class="line">    <span class="keyword">let</span> appBuildVersion = dictionary[<span class="string">"APP_BUILD_VERSION"</span>] <span class="keyword">as</span>! <span class="type">String</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(appName)</span> <span class="subst">\(appVersion)</span> (<span class="subst">\(appBuildVersion)</span>)"</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> backend = (dictionary[<span class="string">"BACKEND_URL"</span>] <span class="keyword">as</span>! <span class="type">String</span>).stringByReplacingOccurrencesOfString(<span class="string">"\\"</span>, withString: <span class="string">""</span>)</div><div class="line">    <span class="built_in">print</span>(<span class="string">"backend: <span class="subst">\(backend)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里是 <a href="https://github.com/tomkowz/demo-xcconfig" target="_blank" rel="external">tomkowz/demo-xcconfig</a> 的代码，从里面你可以看到一些使用 xcconfig 文件的例子。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Xcode 配置文件给出了配置 target 的简易方式，并且支持方便地维护项目配置。在我用例中，可以很棒地切换到这些文件，因为现在维护项目配置和我没有使用这个解决方案之前比起来简单了很多。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tomasz-Szulc/" rel="tag"># Tomasz Szulc</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/UIAlertController测试的修正/" rel="next" title="UIAlertController 测试的修正">
+                <i class="fa fa-chevron-left"></i> UIAlertController 测试的修正
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/16/Swift中的函数式编程/" rel="prev" title="Swift 中的函数式编程">
+                Swift 中的函数式编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用例"><span class="nav-number">1.</span> <span class="nav-text">用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-xcconfig"><span class="nav-number">3.</span> <span class="nav-text">Common.xcconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-debug-和-Common-release"><span class="nav-number">4.</span> <span class="nav-text">Common.debug 和 Common.release</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PerTarget-xcconfig"><span class="nav-number">5.</span> <span class="nav-text">PerTarget.xcconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问变量"><span class="nav-number">6.</span> <span class="nav-text">访问变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
