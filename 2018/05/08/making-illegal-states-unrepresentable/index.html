@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://lin493369.github.io/2018/05/08/making-illegal-states-unrepresentable/index.html">
 <meta property="og:site_name" content="Daizi">
 <meta property="og:description" content="你知道 URLSession 能够同时返回一个响应和错误吗？">
-<meta property="og:updated_time" content="2018-05-08T03:03:51.651Z">
+<meta property="og:updated_time" content="2018-05-08T03:06:05.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使非法状态不可表示">
 <meta name="twitter:description" content="你知道 URLSession 能够同时返回一个响应和错误吗？">
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2,171
+                  2,153
                 </span>
               
 
@@ -436,7 +436,7 @@
 
       
         <p>原文链接=<a href="https://oleb.net/blog/2018/03/making-illegal-states-unrepresentable/" target="_blank" rel="external">https://oleb.net/blog/2018/03/making-illegal-states-unrepresentable/</a><br>作者=Ole Begemann<br>原文日期=2018-03-27</p>
-<h3 id="你知道-URLSession-能够同时返回一个响应和错误吗？"><a href="#你知道-URLSession-能够同时返回一个响应和错误吗？" class="headerlink" title="你知道 URLSession 能够同时返回一个响应和错误吗？"></a>你知道 URLSession 能够同时返回一个响应和错误吗？</h3><p><a href="https://oleb.net/blog/2015/07/swift-type-system/" target="_blank" rel="external">我曾表述过</a> Swift 强类型系统的一个主要优点是能形成自动化和编译器强制执行的文档。</p>
+<p><a href="https://oleb.net/blog/2015/07/swift-type-system/" target="_blank" rel="external">我曾表述过</a> Swift 强类型系统的一个主要优点是能形成自动化和编译器强制执行的文档。</p>
 <h2 id="类型是编译强制执行的文档"><a href="#类型是编译强制执行的文档" class="headerlink" title="类型是编译强制执行的文档"></a>类型是编译强制执行的文档</h2><p>由于类型为函数的行为建立了一种“界限”，因此一个易用的 API 应该有精心选择的输入输出类型。</p>
 <p>仔细思考以下 Swift 函数声明的简单例子：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> / <span class="params">(dividend: Int, divisor: Int)</span></span> -&gt; <span class="type">Int</span></div></pre></td></tr></table></figure></p>
 <p>在不需要任何函数实现的情况下，你就可以推断出这应该是<a href="http://mathworld.wolfram.com/IntegerDivision.html" target="_blank" rel="external">整型除法</a>，因为返回的类型不可能是小数。相较之下，如果函数的返回类型是既可以表示整型，也可以表示浮点型数值的 <a href="https://developer.apple.com/documentation/foundation/nsnumber" target="_blank" rel="external"><code>NSNumber</code></a>，那么你就会信任这种充分文档化的做法。</p>
@@ -684,7 +684,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#你知道-URLSession-能够同时返回一个响应和错误吗？"><span class="nav-number">1.</span> <span class="nav-text">你知道 URLSession 能够同时返回一个响应和错误吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型是编译强制执行的文档"><span class="nav-number"></span> <span class="nav-text">类型是编译强制执行的文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使非法状态成为不可能"><span class="nav-number"></span> <span class="nav-text">使非法状态成为不可能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLSession"><span class="nav-number"></span> <span class="nav-text">URLSession</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应和错误能够同时非-nil"><span class="nav-number"></span> <span class="nav-text">响应和错误能够同时非 nil</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number"></span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确类型是什么样的？"><span class="nav-number"></span> <span class="nav-text">正确类型是什么样的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Result-类型"><span class="nav-number"></span> <span class="nav-text">Result 类型</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型是编译强制执行的文档"><span class="nav-number">1.</span> <span class="nav-text">类型是编译强制执行的文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使非法状态成为不可能"><span class="nav-number">2.</span> <span class="nav-text">使非法状态成为不可能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLSession"><span class="nav-number">3.</span> <span class="nav-text">URLSession</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应和错误能够同时非-nil"><span class="nav-number">4.</span> <span class="nav-text">响应和错误能够同时非 nil</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">5.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确类型是什么样的？"><span class="nav-number">6.</span> <span class="nav-text">正确类型是什么样的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Result-类型"><span class="nav-number">7.</span> <span class="nav-text">Result 类型</span></a></li></ol></div>
             
 
           </div>
