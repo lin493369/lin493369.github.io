@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://lin493369.github.io/2018/05/08/making-illegal-states-unrepresentable/</loc>
+    <lastmod>2018-05-08T03:03:51.651Z</lastmod>
+    <data>
+        <display>
+        <title>使非法状态不可表示</title>
+        <pubTime>2018-05-07T16:00:00.000Z</pubTime>
+        
+        <tag>Swift</tag>
+         
+         
+           
+             
+              <breadCrumb title="Swift 进阶" url="http://lin493369.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://lin493369.github.io/2017/11/01/iOS%20%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%20hook%20%E7%B3%BB%E7%BB%9F%E7%9A%84%20delegate%20%E6%96%B9%E6%B3%95%EF%BC%9F/</loc>
     <lastmod>2017-11-01T07:19:23.000Z</lastmod>
     <data>
@@ -142,30 +162,6 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/09/22/iOS10%E6%B7%BB%E5%8A%A0%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>iOS 10 添加推送功能注意点及问题汇总</title>
-        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
-        
-        <tag>iOS10</tag>
-         
-        <tag>Notification</tag>
-         
-        <tag>推送</tag>
-         
-         
-           
-             
-              <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://lin493369.github.io/2015/12/27/interesting-discussions-on-swift-evolution/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -232,6 +228,50 @@
 
     
   <url>
+    <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>【WatchOS 2教程系列一】WatchOS 2: Hello, World</title>
+        <pubTime>2015-10-02T01:00:00.000Z</pubTime>
+        
+        <tag>WatchOS</tag>
+         
+         
+           
+             
+              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何简单地为测试切换 App Delegate</title>
+        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
+        
+        <tag>test</tag>
+         
+        <tag>效率</tag>
+         
+        <tag>AppDelegate</tag>
+         
+         
+           
+             
+              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://lin493369.github.io/2015/10/10/WatchConnectivity%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%91%8A%E5%88%AB%E5%8A%A0%E8%BD%BD%E7%AD%89%E5%BE%85/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -245,6 +285,30 @@
            
              
               <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/09/22/iOS10%E6%B7%BB%E5%8A%A0%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 10 添加推送功能注意点及问题汇总</title>
+        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
+        
+        <tag>iOS10</tag>
+         
+        <tag>Notification</tag>
+         
+        <tag>推送</tag>
+         
+         
+           
+             
+              <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
           
         </display>
     </data>
@@ -276,19 +340,23 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
+    <loc>http://lin493369.github.io/2016/01/18/AnEasyWayToStubNSURLSession/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>【WatchOS 2教程系列一】WatchOS 2: Hello, World</title>
-        <pubTime>2015-10-02T01:00:00.000Z</pubTime>
+        <title>如何简单地模拟 NSURLSeesion 的返回数据</title>
+        <pubTime>2016-01-17T16:00:00.000Z</pubTime>
         
-        <tag>WatchOS</tag>
+        <tag>test</tag>
+         
+        <tag>效率</tag>
+         
+        <tag>NSURLSeesion</tag>
          
          
            
              
-              <breadCrumb title="WatchOS 入门" url="http://lin493369.github.io/categories/WatchOS-%E5%85%A5%E9%97%A8/"/>
+              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
           
         </display>
     </data>
@@ -318,54 +386,6 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
-        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
-        
-        <tag>storyboard</tag>
-         
-        <tag>strong</tag>
-         
-        <tag>IB</tag>
-         
-         
-           
-             
-              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2016/01/18/AnEasyWayToStubNSURLSession/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何简单地模拟 NSURLSeesion 的返回数据</title>
-        <pubTime>2016-01-17T16:00:00.000Z</pubTime>
-        
-        <tag>test</tag>
-         
-        <tag>效率</tag>
-         
-        <tag>NSURLSeesion</tag>
-         
-         
-           
-             
-              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://lin493369.github.io/2016/07/01/iOS10%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%EF%BC%88LocalNotification)/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -383,6 +403,30 @@
            
              
               <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2015/09/23/%E3%80%90OC%E3%80%91delegateorblock/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>【OC】开发中选择delegate 还是 block</title>
+        <pubTime>2015-09-22T16:00:00.000Z</pubTime>
+        
+        <tag>OC</tag>
+         
+        <tag>delgate</tag>
+         
+        <tag>block</tag>
+         
+         
+           
+             
+              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
           
         </display>
     </data>
@@ -456,71 +500,23 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
+    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>在 WordPress 中使用 Github README 标签</title>
-        <pubTime>2016-02-19T16:00:00.000Z</pubTime>
+        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
+        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
         
-        <tag>博客</tag>
+        <tag>storyboard</tag>
          
-        <tag>WordPress</tag>
+        <tag>strong</tag>
          
-        <tag>Github</tag>
+        <tag>IB</tag>
          
          
            
              
-              <breadCrumb title="博客技巧" url="http://lin493369.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%8A%80%E5%B7%A7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2015/09/23/%E3%80%90OC%E3%80%91delegateorblock/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>【OC】开发中选择delegate 还是 block</title>
-        <pubTime>2015-09-22T16:00:00.000Z</pubTime>
-        
-        <tag>block</tag>
-         
-        <tag>OC</tag>
-         
-        <tag>delgate</tag>
-         
-         
-           
-             
-              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何简单地为测试切换 App Delegate</title>
-        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
-        
-        <tag>test</tag>
-         
-        <tag>效率</tag>
-         
-        <tag>AppDelegate</tag>
-         
-         
-           
-             
-              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
+              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
           
         </display>
     </data>
@@ -541,6 +537,30 @@
            
              
               <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>在 WordPress 中使用 Github README 标签</title>
+        <pubTime>2016-02-19T16:00:00.000Z</pubTime>
+        
+        <tag>博客</tag>
+         
+        <tag>WordPress</tag>
+         
+        <tag>Github</tag>
+         
+         
+           
+             
+              <breadCrumb title="博客技巧" url="http://lin493369.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%8A%80%E5%B7%A7/"/>
           
         </display>
     </data>
