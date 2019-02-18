@@ -1,0 +1,1035 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift,区块链," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Daizi" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="构建第一个 Swift 区块链应用">
+<meta name="keywords" content="Swift,区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建第一个 Swift 区块链应用">
+<meta property="og:url" content="http://lin493369.github.io/2018/12/08/appcoda-blockchain-introduction/index.html">
+<meta property="og:site_name" content="Daizi">
+<meta property="og:description" content="构建第一个 Swift 区块链应用">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-explained.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-2.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-3.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-4.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-5.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-6.png">
+<meta property="og:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-7.png">
+<meta property="og:updated_time" content="2019-02-18T03:35:57.408Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建第一个 Swift 区块链应用">
+<meta name="twitter:description" content="构建第一个 Swift 区块链应用">
+<meta name="twitter:image" content="https://appcoda.com/wp-content/uploads/2018/05/blockchain-explained.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lin493369.github.io/2018/12/08/appcoda-blockchain-introduction/"/>
+
+
+
+
+
+  <title> 构建第一个 Swift 区块链应用 | Daizi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6cecca5b764250906e3dba78ba3e5afc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daizi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lin493369.github.io/2018/12/08/appcoda-blockchain-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小袋子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/upload/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daizi">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                构建第一个 Swift 区块链应用
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-08T00:00:00+08:00">
+                2018-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/12/08/appcoda-blockchain-introduction/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/12/08/appcoda-blockchain-introduction/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,518
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  17
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  构建第一个 Swift 区块链应用
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接=<a href="https://appcoda.com/blockchain-introduction/" target="_blank" rel="external">https://appcoda.com/blockchain-introduction/</a><br>作者=Sai Kambampati<br>原文日期=2018-05-31</p>
+<!--此处开始正文-->
+<p>区块链作为一项革命性的技术，开始受到越来越多追捧。为什么呢？因为区块链是许多加密数字货币的底层技术，比如：比特币（BTC），以太坊（ETH）以及莱特币（LTC）。区块链具体是如何工作的？本篇教程会涵盖所有区块链相关的知识，还会教你如何构建 Swift “区块链”。下面让我们开始吧！</p>
+<h3 id="区块链的工作原理"><a href="#区块链的工作原理" class="headerlink" title="区块链的工作原理"></a>区块链的工作原理</h3><p>顾名思义，区块链是一条由不同区块连接组成的链。每一个块包含三个信息：数据、哈希（hash）、以及前置区块的哈希。</p>
+<p><strong>1、数据</strong> – 由于应用场景不同，存储在区块中的数据由区块链的类型决定。例如，在比特币区块链中，存储的数据是交易信息：转账金额和交易双方的信息。</p>
+<p><strong>2、哈希</strong> – 你可以将哈希看做数字指纹，用来唯一标识一个区块及其数据。哈希的重要之处在于它是一个独特的字母数字代码，通常是 64 个字符。当一个区块被创建时，哈希也随之创建。当一个区块被修改，哈希也随之修改。因此，当你想要查看在区块上所做的任何变更时，哈希就显得非常重要。</p>
+<p><strong>3、前置区块的哈希</strong> – 通过存储前置区块的哈希，你可以还原每个区块连接成区块链的过程！这使得区块链安全性特别高。</p>
+<p>我们来看下这张图片：</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-explained.png" alt="区块链"></p>
+<p>你可以看到，每一个区块包含数据（图片中没有指明）、哈希以及前置区块的哈希。例如，黄色区块包含自身的哈希：H7s6，以及红色区块的哈希：8SD9。这样它们就构成了一条相互连接的链。现在，假如有一个黑客准备恶意篡改红色的区块。请记住，每当块以任何方式被篡改时，该区块的哈希都会改变！当下一个区块检查并发现前置哈希不一致时，黑客将无法访问它，因为他与前置区块的联系被切断了（译者注：即如果黑客想要要篡改一个区块的话，就需要把这个区块后面的所有区块都要改掉，而这个工作量是很难实现的）。</p>
+<p>这使得区块链特别安全，几乎不可能回滚或者篡改任何数据。虽然哈希为保密和隐私提供了巨大的保障，但是还有两个更加安全妥当的措施让区块链更加安全：工作量证明（Proof-of-Work）以及智能合约（Smart Contracts）。本文我不会深入讲解，你可以<a href="https://hackernoon.com/what-on-earth-is-a-smart-contract-2c82e5d89d26" target="_blank" rel="external">在这里</a>了解更多相关知识。</p>
+<p>区块链最后一个保证自身安全性的方式是基于其定位。和大多数存储在服务器和数据库的数据不同，区块链使用的是点对点（P2P）网络。P2P 是一种允许任何人加入的网络，并且该网络上的数据会分发给每一个接收者。</p>
+<p>每当有人加入这个网络，他们就会获得一份区块链的完整拷贝。每当有人新建一个区块，就会广播给全网。在将该块添加到链之前，节点会通过几个复杂的程序确定该块是否被篡改。这样，所有人、所有地方都可以使用这个信息。如果你是 <em>HBO 美剧硅谷</em> 的粉丝，对此应该不会感到陌生。在该剧中，主演（Richard）使用一种相似的技术创造了新型互联网（译者注：有趣的是剧中还发行了区块链数字货币 PiedPaperCoin，感兴趣的童鞋可以刷一下这部剧）。</p>
+<p>因为每个人都有区块链或者节点的一份拷贝，他们可以达成一种共识并决定哪部分区块是有效的。因此，如果你想要攻击某个区块，你必须同时攻击网络上 50% 以上的区块（译者：51% 攻击），使得你的区块可以追上并替换原区块链。所以区块链或许是过去十年所创造的最安全的技术之一。</p>
+<h3 id="关于示例程序"><a href="#关于示例程序" class="headerlink" title="关于示例程序"></a>关于示例程序</h3><p>现在你已经对区块链的原理有了初步的认识，那么我们就开始写示例程序吧！你可以在这里下载<a href="https://github.com/appcoda/BlockchainDemo/raw/master/BlockchainStarter.zip" target="_blank" rel="external">原始项目</a>。</p>
+<p>如你所见，我们有两个比特币钱包。第一个账户 1065 有 500 BTC，而第二个账户 0217 没有 BTC。我们通过 send 按钮可以发送比特币到另外的账户。为了赚取 BTC，我们可以点击 Mine 按钮，可以获得 50 BTC 的奖励。我们主要工作是查看控制台输出，观察两个账户间的交易过程。</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-2.png" alt="这里写图片描述"></p>
+<p>在左侧导航栏可以看到两个很重要的类：<code>Block</code> 和 <code>Blockchain</code>。目前这两个类都是空实现，我会带着你们在这两个类中写入相关逻辑。下面让我们开始吧！</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-3.png" alt="这里写图片描述"></p>
+<h3 id="在-Swift-中定义区块"><a href="#在-Swift-中定义区块" class="headerlink" title="在 Swift 中定义区块"></a>在 Swift 中定义区块</h3><p>首先打开 <code>Block.swift</code> 并添加定义区块的代码。在此之前，我们需要定义区块是什么。前面我们曾定义过，区块是由三部分组成：哈希、实际记录的数据以及前置区块的哈希。当我们想要构建我们的区块链时，我们必须知道该区块是第一个还是第二个。我们可以很容易地在 Swift 的类中做如下定义：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hash: <span class="keyword">String</span>!</div><div class="line"><span class="keyword">var</span> data: <span class="keyword">String</span>!</div><div class="line"><span class="keyword">var</span> previousHash: <span class="keyword">String</span>!</div><div class="line"><span class="keyword">var</span> <span class="keyword">index</span>: Int!</div></pre></td></tr></table></figure>
+<p>现在需要添加最重要的代码。我曾提过区块在被修改的情况下，哈希也会随之变化，这是区块链如此安全的特性之一。因此我们需要创建一个函数去生成哈希，该哈希由随机字母和数字组成。这个函数只需要几行代码：</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateHash</span><span class="params">()</span> -&gt; <span class="title">String</span> &#123;</span></div><div class="line">    <span class="keyword">return</span> NSUUID().uuidString.replacingOccurrences(of: <span class="string">"-"</span>, <span class="keyword">with</span>: <span class="string">""</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>NSUUID</code>是一个代表通用唯一值的对象，并且可以桥接成 UUID。它可以快速地生成 32 个字符串。本函数生成一个 UUID，删除其中的连接符，然后返回一个 <code>String</code>，最后将结果作为区块的哈希。<code>Block.swift</code>现在就像下面：</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-4.png" alt="这里写图片描述"></p>
+<p>现在我们已经定义好了 <code>Block</code> 类，下面来定义 Blockchain 类，首先切换到 <code>Blockchain.swift</code> 。</p>
+<h3 id="在-Swift-中定义区块链"><a href="#在-Swift-中定义区块链" class="headerlink" title="在 Swift 中定义区块链"></a>在 Swift 中定义区块链</h3><p>和之前一样，首先分析区块链的基本原理。用非常基础的术语来说，区块链只是由一连串的区块连接而成，也可以说是一个由多个条目组成的列表。这是不是听起来很熟悉呢？其实这就是数组的定义！而且这个数组是由区块组成的！接下来添加以下代码：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var chain = [<span class="string">Block</span>](<span class="link"></span>)</div></pre></td></tr></table></figure>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">快速提示： 这个方法可以应用于计算机科学世界里的任何事物。如果你遇到大难题，可以尝试把它分解成若干个小问题，以此来建立起解决问题的方法，正如我们解决在 <span class="keyword">Swift </span>中如何添加区块和区块链的问题。</div></pre></td></tr></table></figure>
+<p>你会注意到数组里面是我们前面定义的 <code>Block</code> 类，这就是区块链所需要的所有变量。为了完成功能，我们还需要在类中添加两个函数。请尝试着根据我之前教过的方法解答这个问题。</p>
+<blockquote>
+<p>区块链中的两个主要函数是什么？</p>
+</blockquote>
+<p>我希望你能认真思考并回答这个问题！实际上，区块链的两个主要功能是创建创世区块（最初的始块），以及在其结尾添加新的区块。当然现在我不打算实现分叉区块链和添加智能合约的功能，但你必须了解这两个是基本功能！将以下代码添加到 <code>Blockchain.swift</code>：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">func createGenesisBlock(data:String) &#123;</div><div class="line">    let genesisBlock = Block()</div><div class="line">    genesisBlock<span class="selector-class">.hash</span> = genesisBlock.generateHash()</div><div class="line">    genesisBlock<span class="selector-class">.data</span> = data</div><div class="line">    genesisBlock<span class="selector-class">.previousHash</span> = <span class="string">"0000"</span></div><div class="line">    genesisBlock<span class="selector-class">.index</span> = <span class="number">0</span></div><div class="line">    chain.append(genesisBlock)</div><div class="line">&#125;</div><div class="line"></div><div class="line">func createBlock(data:String) &#123;</div><div class="line">    let newBlock = Block()</div><div class="line">    newBlock<span class="selector-class">.hash</span> = newBlock.generateHash()</div><div class="line">    newBlock<span class="selector-class">.data</span> = data</div><div class="line">    newBlock<span class="selector-class">.previousHash</span> = chain[chain.count-<span class="number">1</span>]<span class="selector-class">.hash</span></div><div class="line">    newBlock<span class="selector-class">.index</span> = chain<span class="selector-class">.count</span></div><div class="line">    chain.append(newBlock)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>1、我们添加的第一个函数的作用是创建创世区块。为此，我们创建了一个以区块数据为入参的函数。然后定义了一个类型为 <code>Block</code> 的变量 <code>genesisBlock</code>，它拥有此前在 <code>Block.swift</code> 中定义的所有变量和函数。我们将 <code>generateHash()</code> 赋值给哈希，将输入的 <code>data</code> 参数赋值给数据。由于这是第一个区块，我们将前置区块的哈希设为 0000，这样我们就可以知道这是起始区块。最后我们将 <code>index</code> 设为 0，并将这个区块加入到区块链中。</p>
+<p>2、我们创建的第二个函数适用于 <code>genesisBlock</code> 之后的所有区块，并且能创建剩余的区块。你会注意到它与第一个函数非常相似。唯一的区别是，我们将 <code>previousHash</code> 的值设置为前一个区块的哈希值，并将 <code>index</code> 设置为它在区块链中的位置。就这样，区块链已经定义好了！你的代码应该看起来跟下图一样！</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-5.png" alt="这里写图片描述"></p>
+<h3 id="钱包后端"><a href="#钱包后端" class="headerlink" title="钱包后端"></a>钱包后端</h3><p>现在切换到 <code>ViewController.swift</code>，我们会发现所有的 outlet 都已经连接好了。我们只需要处理交易，并将其输出到控制台。</p>
+<p>然而在此之前，我们需要稍微研究一下比特币的区块链。比特币是由一个总账户产生的，我们将这个账号的编号称为 0000。当你挖到一个 BTC，意味着你解决了数学问题，因此会发行一定数量的比特币作为奖励。这提供了一个发币的高明方法，并且可以激励更多人去挖矿。在我们的应用，让我们把挖矿奖励设为 100 BTC。首先，在视图控制器中添加所需的变量：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> <span class="attr">firstAccount</span> = <span class="number">1065</span></div><div class="line"><span class="keyword">let</span> <span class="attr">secondAccount</span> = <span class="number">0217</span></div><div class="line"><span class="keyword">let</span> <span class="attr">bitcoinChain</span> = Blockchain()</div><div class="line"><span class="keyword">let</span> <span class="attr">reward</span> = <span class="number">100</span></div><div class="line">var accounts: [String: Int] = [<span class="string">"0000"</span>: <span class="number">10000000</span>]</div><div class="line"><span class="keyword">let</span> <span class="attr">invalidAlert</span> = UIAlertController(title: <span class="string">"Invalid Transaction"</span>, message: <span class="string">"Please check the details of your transaction as we were unable to process this."</span>, preferredStyle: .alert)</div></pre></td></tr></table></figure>
+<p>首先定义号码为 1065 和 0217 的两个账号。然后添加一个名为 <code>bitcoinChain</code> 的变量作为我们的区块链，并将 <code>reward</code> 设为 100。我们需要一个主帐户作为所有比特币的来源：即创世帐户 0000。里面有 1000 万个比特币。你可以把这个账户想象成一个银行，所有因奖励产生的 100 个比特币都经此发放到合法账户中。我们还定义了一个提醒弹窗，每当交易无法完成时就会弹出。</p>
+<p>现在，让我们来编写几个运行时需要的通用函数。你能猜出是什么函数吗？</p>
+<p>1、第一个函数是用来处理交易的。我们需要确保交易双方的账户，能够接收或扣除正确的金额，并将这些信息记录到我们的区块链中。</p>
+<p>2、下一个函数是在控制台中打印整个记录 —— 它将显示每个区块及其中的数据。</p>
+<p>3、最后一个是用于验证区块链是否有效的函数，通过校验下一个区块的 <code>previousHash</code>和上一个区块 <code>hash</code> 是否匹配。由于我们不会演示任何黑客方法，因此在我们的示例程序中，区块链是永远有效的。</p>
+<h3 id="交易函数"><a href="#交易函数" class="headerlink" title="交易函数"></a>交易函数</h3><p>下面是一个通用的交易函数，请在我们定义的变量下方输入以下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">transaction</span><span class="params">(from: String, to: String, amount: Int, type: String)</span></span> &#123;</div><div class="line">    <span class="comment">// 1</span></div><div class="line">    <span class="keyword">if</span> accounts[from] == <span class="literal">nil</span> &#123;</div><div class="line">        <span class="keyword">self</span>.present(invalidAlert, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</div><div class="line">        <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> accounts[from]!-amount &lt; <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">self</span>.present(invalidAlert, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</div><div class="line">        <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        accounts.updateValue(accounts[from]!-amount, forKey: from)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 2</span></div><div class="line">    <span class="keyword">if</span> accounts[to] == <span class="literal">nil</span> &#123;</div><div class="line">        accounts.updateValue(amount, forKey: to)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        accounts.updateValue(accounts[to]!+amount, forKey: to)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 3</span></div><div class="line">    <span class="keyword">if</span> type == <span class="string">"genesis"</span> &#123;</div><div class="line">        bitcoinChain.createGenesisBlock(data: <span class="string">"From: <span class="subst">\(from)</span>; To: <span class="subst">\(to)</span>; Amount: <span class="subst">\(amount)</span>BTC"</span>)</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> type == <span class="string">"normal"</span> &#123;</div><div class="line">        bitcoinChain.createBlock(data: <span class="string">"From: <span class="subst">\(from)</span>; To: <span class="subst">\(to)</span>; Amount: <span class="subst">\(amount)</span>BTC"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码量看起来好像很大，但主要是定义了每个交易需要遵循的一些规则。一开始是函数的四个参数：<br><code>to</code>, <code>from</code>, <code>amount</code>,  <code>type</code>。前三个参数不需要再解释了，而 <code>Type</code> 主要用于定义交易的类型。总共有两个类型：正常类型（normal） 和创世类型（genesis）。正常类型的交易会发生在账户 1065 和 2017 之间，而创世类型将会涉及到账户 0000。</p>
+<p>1、第一个 <code>if-else</code> 条件语句处理转出账户的信息。如果账户不存在或者余额不足，将会提示交易不合法并返回。</p>
+<p>2、第二个 <code>if-else</code> 条件语句处理转入账户的信息。如果账户不存在，则创建新账户并转入相应的比特币。反之，则向该账户转入正确数量的比特币。</p>
+<p>3、最后一个 <code>if-else</code>条件语句处理交易类型。如果类型是创世类型，则添加一个创世区块，否则创建一个新的区块存储数据。</p>
+<h3 id="打印函数"><a href="#打印函数" class="headerlink" title="打印函数"></a>打印函数</h3><p>为了确保交易正确执行，在每个交易结束后，我们希望拿到所有交易的清单。以下是我们在交易函数下方的代码，用来打印相关信息：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">chainState</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...bitcoinChain.chain.<span class="built_in">count</span>-<span class="number">1</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"\tBlock: <span class="subst">\(bitcoinChain.chain[i].index!)</span>\n\tHash: <span class="subst">\(bitcoinChain.chain[i].hash!)</span>\n\tPreviousHash: <span class="subst">\(bitcoinChain.chain[i].previousHash!)</span>\n\tData: <span class="subst">\(bitcoinChain.chain[i].data!)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">    redLabel.text = <span class="string">"Balance: <span class="subst">\(accounts[String(describing: firstAccount)</span>]!) BTC"</span></div><div class="line">    blueLabel.text = <span class="string">"Balance: <span class="subst">\(accounts[String(describing: secondAccount)</span>]!) BTC"</span></div><div class="line">    <span class="built_in">print</span>(accounts)</div><div class="line">    <span class="built_in">print</span>(chainValidity())</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是一个简单的循环语句，遍历 <code>bitcoinChain</code> 中的所有区块，并打印区块号码，哈希，前置哈希，以及存储的数据。同时我们更新了界面中的标签（label），这样就可以显示账户中正确的 BTC 数量。最后，打印所有的账户（应该是 3 个），并校验区块链的有效性。</p>
+<p>现在你应该会在函数的最后一行发现一个错误。这是由于我们还没有实现 <code>chainValidity()</code> 函数，让我们马上开始吧。</p>
+<h3 id="有效性函数"><a href="#有效性函数" class="headerlink" title="有效性函数"></a>有效性函数</h3><p>判断一个链是否有效的标准是：前置区块的哈希与当前区块所表示的是否匹配。我们可以再次用循环语句来遍历所有的区块：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">func chainValidity() -&gt; String &#123;</div><div class="line">    <span class="selector-tag">var</span> isChainValid = true</div><div class="line">    <span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="selector-class">.bitcoinChain</span><span class="selector-class">.chain</span><span class="selector-class">.count-1</span> &#123;</div><div class="line">        <span class="keyword">if</span> bitcoinChain<span class="selector-class">.chain</span>[i]<span class="selector-class">.previousHash</span> != bitcoinChain<span class="selector-class">.chain</span>[i-<span class="number">1</span>]<span class="selector-class">.hash</span> &#123;</div><div class="line">            isChainValid = false</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return <span class="string">"Chain is valid: \(isChainValid)\n"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和之前一样，我们遍历了 <code>bitcoinChain</code>中的所有区块，并检查了前置区块的 <code>hash</code> 是否与当前区块的 <code>previousHash</code> 一致。</p>
+<p>就酱！我们已经将定义了所有需要的函数！你的 <code>ViewController.swift</code> 应该如下图一样：</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-6.png" alt="这里写图片描述"></p>
+<p>收尾工作就是连接按钮和函数啦。让我们马上开始最后的部分吧！</p>
+<h3 id="让一切关联起来"><a href="#让一切关联起来" class="headerlink" title="让一切关联起来"></a>让一切关联起来</h3><p>当我们的应用第一次启动时，需要创世账户 0000 发送 50 BTC 到我们的第一个账户。再从第一个账户转账 10 BTC 到第二个账户，这只需要寥寥三行代码。最后 <code>viewDidLoad</code> 中的代码如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">override</span> <span class="selector-tag">func</span> <span class="selector-tag">viewDidLoad</span>() &#123;</div><div class="line">    <span class="selector-tag">super</span><span class="selector-class">.viewDidLoad</span>()</div><div class="line">    <span class="selector-tag">transaction</span>(<span class="attribute">from</span>: <span class="string">"0000"</span>, <span class="attribute">to</span>: <span class="string">"\(firstAccount)"</span>, <span class="attribute">amount</span>: <span class="number">50</span>, <span class="attribute">type</span>: <span class="string">"genesis"</span>)</div><div class="line">    <span class="selector-tag">transaction</span>(<span class="attribute">from</span>: <span class="string">"\(firstAccount)"</span>, <span class="attribute">to</span>: <span class="string">"\(secondAccount)"</span>, <span class="attribute">amount</span>: <span class="number">10</span>, <span class="attribute">type</span>: <span class="string">"normal"</span>)</div><div class="line">    <span class="selector-tag">chainState</span>()</div><div class="line">    <span class="selector-tag">self</span><span class="selector-class">.invalidAlert</span><span class="selector-class">.addAction</span>(UIAlertAction(<span class="attribute">title</span>: <span class="string">"OK"</span>, <span class="attribute">style</span>: .default, <span class="attribute">handler</span>: nil))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们使用已定义好的函数转账，并调用 <code>chainState()</code> 函数。最后，我们还在 <code>invalidAlert</code> 中添加了一个标题为 OK 的 <code>UIAlertAction</code>。</p>
+<p>现在让我们来实现剩下的四个函数：<code>ReMeNe()</code>、<code>BrimeMeNe()</code>、<code>ReSdEnter()</code>和<code>BuLeScript()</code>。</p>
+<h3 id="挖矿函数"><a href="#挖矿函数" class="headerlink" title="挖矿函数"></a>挖矿函数</h3><p>挖矿函数特别简单，只需要三行代码。添加以下代码：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@IBAction</span> func redMine(_ <span class="attribute">sender</span>: Any) &#123;</div><div class="line">    <span class="selector-tag">transaction</span>(<span class="attribute">from</span>: <span class="string">"0000"</span>, <span class="attribute">to</span>: <span class="string">"\(firstAccount)"</span>, <span class="attribute">amount</span>: <span class="number">100</span>, <span class="attribute">type</span>: <span class="string">"normal"</span>)</div><div class="line">    <span class="selector-tag">print</span>(<span class="string">"New block mined by: \(firstAccount)"</span>)</div><div class="line">    <span class="selector-tag">chainState</span>()</div><div class="line">&#125;</div><div class="line">    </div><div class="line">@<span class="selector-tag">IBAction</span> <span class="selector-tag">func</span> <span class="selector-tag">blueMine</span>(_ <span class="attribute">sender</span>: Any) &#123;</div><div class="line">    <span class="selector-tag">transaction</span>(<span class="attribute">from</span>: <span class="string">"0000"</span>, <span class="attribute">to</span>: <span class="string">"\(secondAccount)"</span>, <span class="attribute">amount</span>: <span class="number">100</span>, <span class="attribute">type</span>: <span class="string">"normal"</span>)</div><div class="line">    <span class="selector-tag">print</span>(<span class="string">"New block mined by: \(secondAccount)"</span>)</div><div class="line">    <span class="selector-tag">chainState</span>()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在第一个挖矿函数中，我们使用交易函数从创世账户发送了 100 BTC 到第一个账户。我们打印了挖矿的区块，然后打印了区块链的状态。同样地，在 <code>blueMine</code> 函数中，我们转给了第二个账户 100 BTC。</p>
+<h3 id="发送函数"><a href="#发送函数" class="headerlink" title="发送函数"></a>发送函数</h3><p>发送函数和挖矿函数略微相似：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">redSend</span><span class="params">(<span class="number">_</span> sender: Any)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> redAmount.text == <span class="string">""</span> &#123;</div><div class="line">        present(invalidAlert, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        transaction(from: <span class="string">"<span class="subst">\(firstAccount)</span>"</span>, to: <span class="string">"<span class="subst">\(secondAccount)</span>"</span>, amount: <span class="type">Int</span>(redAmount.text!)!, type: <span class="string">"normal"</span>)</div><div class="line">        <span class="built_in">print</span>(<span class="string">"<span class="subst">\(redAmount.text!)</span> BTC sent from <span class="subst">\(firstAccount)</span> to <span class="subst">\(secondAccount)</span>"</span>)</div><div class="line">        chainState()</div><div class="line">        redAmount.text = <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">blueSend</span><span class="params">(<span class="number">_</span> sender: Any)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> blueAmount.text == <span class="string">""</span> &#123;</div><div class="line">        present(invalidAlert, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        transaction(from: <span class="string">"<span class="subst">\(secondAccount)</span>"</span>, to: <span class="string">"<span class="subst">\(firstAccount)</span>"</span>, amount: <span class="type">Int</span>(blueAmount.text!)!, type: <span class="string">"normal"</span>)</div><div class="line">        <span class="built_in">print</span>(<span class="string">"<span class="subst">\(blueAmount.text!)</span> BTC sent from <span class="subst">\(secondAccount)</span> to <span class="subst">\(firstAccount)</span>"</span>)</div><div class="line">        chainState()</div><div class="line">        blueAmount.text = <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先，我们检查 <code>redAmount</code> 或者 <code>blueAmount</code> 的文本值是否为空。如果为空，则弹出无效交易的提示框。如果不为空，则继续下一步。我们使用交易函数从第一个账户转账到第二个账户（或者反向转账），金额为输入的数量。我们打印转账金额，并调用 <code>chainState()</code> 方法。最后，清空文本框。</p>
+<p>就酱，工作完成！请检查你的代码是否和图中一致：</p>
+<p><img src="https://appcoda.com/wp-content/uploads/2018/05/blockchain-7.png" alt="这里写图片描述"></p>
+<p>现在运行应用并测试一下。从前端看，这就像一个正常的交易应用，但是运行在屏幕背后的可是区块链啊！请尝试使用应用将 BTC 从一个帐户转移到另一个帐户，随意测试，尽情把玩吧！</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在这个教程中，你已经学会了如何使用 Swift 创建区块链，并且创建了你自己的比特币交易系统。请注意，真正加密货币的后端，和我们上面的实现完全不一样，因为它需要用智能合约实现分布式，而本例仅用于学习。</p>
+<p>在这个示例中，我们将区块链技术应用于加密货币，然而你能想到区块链的其他应用场景吗？请留言分享给大家！希望你能学到更多新东西！</p>
+<p>为了参考，你可以从 GitHub 下载<a href="https://github.com/appcoda/BlockchainDemo" target="_blank" rel="external">完整的示例</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/making-illegal-states-unrepresentable/" rel="prev" title="使非法状态不可表示">
+                使非法状态不可表示 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/upload/avatar.png"
+               alt="小袋子" />
+          <p class="site-author-name" itemprop="name">小袋子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lin493369" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/chunai520" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#区块链的工作原理"><span class="nav-number">1.</span> <span class="nav-text">区块链的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于示例程序"><span class="nav-number">2.</span> <span class="nav-text">关于示例程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Swift-中定义区块"><span class="nav-number">3.</span> <span class="nav-text">在 Swift 中定义区块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Swift-中定义区块链"><span class="nav-number">4.</span> <span class="nav-text">在 Swift 中定义区块链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#钱包后端"><span class="nav-number">5.</span> <span class="nav-text">钱包后端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交易函数"><span class="nav-number">6.</span> <span class="nav-text">交易函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印函数"><span class="nav-number">7.</span> <span class="nav-text">打印函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有效性函数"><span class="nav-number">8.</span> <span class="nav-text">有效性函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让一切关联起来"><span class="nav-number">9.</span> <span class="nav-text">让一切关联起来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挖矿函数"><span class="nav-number">10.</span> <span class="nav-text">挖矿函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送函数"><span class="nav-number">11.</span> <span class="nav-text">发送函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论"><span class="nav-number">12.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小袋子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cysFjBXOI';
+      var conf = '1fc01df46c213b1835afab3ad3163877';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
