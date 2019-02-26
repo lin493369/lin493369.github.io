@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://lin493369.github.io/2019/02/26/iOS%20%E4%B8%80%E5%AF%B9%E5%A4%9A%20delegate%20%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</loc>
+    <lastmod>2019-02-26T06:58:48.984Z</lastmod>
+    <data>
+        <display>
+        <title>iOS 一对多 delegate 的简单应用</title>
+        <pubTime>2019-02-25T16:00:00.000Z</pubTime>
+        
+        <tag>delegate</tag>
+         
+        <tag>iOS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://lin493369.github.io/2018/12/08/appcoda-blockchain-introduction/</loc>
     <lastmod>2019-02-18T03:35:57.408Z</lastmod>
     <data>
@@ -181,21 +200,25 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2017/04/10/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</loc>
+    <loc>http://lin493369.github.io/2015/12/17/CoreAnimation&Facebook'sPOP/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>伪单例模式</title>
-        <pubTime>2017-04-09T16:00:00.000Z</pubTime>
+        <title>Core Animation & Facebook's POP</title>
+        <pubTime>2015-12-16T16:00:00.000Z</pubTime>
         
-        <tag>Objective-C</tag>
+        <tag>个人</tag>
          
-        <tag>单例</tag>
+        <tag>POP</tag>
+         
+        <tag>CoreAnimation</tag>
+         
+        <tag>Facebook</tag>
          
          
            
              
-              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
+              <breadCrumb title="Animation" url="http://lin493369.github.io/categories/Animation/"/>
           
         </display>
     </data>
@@ -243,32 +266,6 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/12/17/CoreAnimation&Facebook'sPOP/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Core Animation & Facebook's POP</title>
-        <pubTime>2015-12-16T16:00:00.000Z</pubTime>
-        
-        <tag>个人</tag>
-         
-        <tag>POP</tag>
-         
-        <tag>CoreAnimation</tag>
-         
-        <tag>Facebook</tag>
-         
-         
-           
-             
-              <breadCrumb title="Animation" url="http://lin493369.github.io/categories/Animation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
@@ -289,23 +286,47 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
+    <loc>http://lin493369.github.io/2015/10/12/Playgrounds%E4%B8%AD%E7%9A%84%E5%AD%97%E9%9D%A2%E9%87%8F%EF%BC%88Literals%EF%BC%89/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>如何简单地为测试切换 App Delegate</title>
-        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
+        <title>Playgrounds中的字面量（Literals）</title>
+        <pubTime>2015-10-11T16:00:00.000Z</pubTime>
         
-        <tag>test</tag>
+        <tag>Literals</tag>
          
-        <tag>效率</tag>
+        <tag>字面量</tag>
          
-        <tag>AppDelegate</tag>
+        <tag>Playgrounds</tag>
          
          
            
              
-              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
+              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
+        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
+        
+        <tag>storyboard</tag>
+         
+        <tag>strong</tag>
+         
+        <tag>IB</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
           
         </display>
     </data>
@@ -330,28 +351,6 @@
            
              
               <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Swift：带有私有设置方法的公有属性</title>
-        <pubTime>2016-01-07T16:00:00.000Z</pubTime>
-        
-        <tag>Swift</tag>
-         
-        <tag>封装</tag>
-         
-         
-           
-             
-              <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
           
         </display>
     </data>
@@ -400,6 +399,28 @@
            
              
               <breadCrumb title="Notification" url="http://lin493369.github.io/categories/Notification/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2017/04/10/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>伪单例模式</title>
+        <pubTime>2017-04-09T16:00:00.000Z</pubTime>
+        
+        <tag>Objective-C</tag>
+         
+        <tag>单例</tag>
+         
+         
+           
+             
+              <breadCrumb title="Objective-C" url="http://lin493369.github.io/categories/Objective-C/"/>
           
         </display>
     </data>
@@ -497,14 +518,40 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/09/24/%E6%9C%80%E4%BD%B3Swift%E5%AE%9E%E8%B7%B5(1)/</loc>
+    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>【 swift 】17 条Swift最佳实践规范</title>
-        <pubTime>2015-09-23T16:00:00.000Z</pubTime>
+        <title>在 WordPress 中使用 Github README 标签</title>
+        <pubTime>2016-02-19T16:00:00.000Z</pubTime>
         
-        <tag>swift</tag>
+        <tag>博客</tag>
+         
+        <tag>WordPress</tag>
+         
+        <tag>Github</tag>
+         
+         
+           
+             
+              <breadCrumb title="博客技巧" url="http://lin493369.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%8A%80%E5%B7%A7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>Swift：带有私有设置方法的公有属性</title>
+        <pubTime>2016-01-07T16:00:00.000Z</pubTime>
+        
+        <tag>Swift</tag>
+         
+        <tag>封装</tag>
          
          
            
@@ -539,66 +586,14 @@
 
     
   <url>
-    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
+    <loc>http://lin493369.github.io/2015/09/24/%E6%9C%80%E4%BD%B3Swift%E5%AE%9E%E8%B7%B5(1)/</loc>
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     <data>
         <display>
-        <title>Storyboard Reference, Strong IBOutlet, Scene Dock in iOS 9</title>
-        <pubTime>2015-10-19T16:00:00.000Z</pubTime>
+        <title>【 swift 】17 条Swift最佳实践规范</title>
+        <pubTime>2015-09-23T16:00:00.000Z</pubTime>
         
-        <tag>storyboard</tag>
-         
-        <tag>strong</tag>
-         
-        <tag>IB</tag>
-         
-         
-           
-             
-              <breadCrumb title="iOS 9" url="http://lin493369.github.io/categories/iOS-9/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>在 WordPress 中使用 Github README 标签</title>
-        <pubTime>2016-02-19T16:00:00.000Z</pubTime>
-        
-        <tag>博客</tag>
-         
-        <tag>WordPress</tag>
-         
-        <tag>Github</tag>
-         
-         
-           
-             
-              <breadCrumb title="博客技巧" url="http://lin493369.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%8A%80%E5%B7%A7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://lin493369.github.io/2015/10/12/Playgrounds%E4%B8%AD%E7%9A%84%E5%AD%97%E9%9D%A2%E9%87%8F%EF%BC%88Literals%EF%BC%89/</loc>
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Playgrounds中的字面量（Literals）</title>
-        <pubTime>2015-10-11T16:00:00.000Z</pubTime>
-        
-        <tag>Literals</tag>
-         
-        <tag>字面量</tag>
-         
-        <tag>Playgrounds</tag>
+        <tag>swift</tag>
          
          
            
@@ -624,6 +619,30 @@
            
              
               <breadCrumb title="Swift 入门" url="http://lin493369.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何简单地为测试切换 App Delegate</title>
+        <pubTime>2015-12-18T16:00:00.000Z</pubTime>
+        
+        <tag>test</tag>
+         
+        <tag>效率</tag>
+         
+        <tag>AppDelegate</tag>
+         
+         
+           
+             
+              <breadCrumb title="Test" url="http://lin493369.github.io/categories/Test/"/>
           
         </display>
     </data>

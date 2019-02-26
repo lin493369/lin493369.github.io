@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://lin493369.github.io/2019/02/26/iOS%20%E4%B8%80%E5%AF%B9%E5%A4%9A%20delegate%20%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</loc>
+    
+    <lastmod>2019-02-26T06:58:48.984Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://lin493369.github.io/2018/12/08/appcoda-blockchain-introduction/</loc>
     
     <lastmod>2019-02-18T03:35:57.408Z</lastmod>
@@ -58,7 +65,7 @@
   </url>
   
   <url>
-    <loc>http://lin493369.github.io/2017/04/10/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</loc>
+    <loc>http://lin493369.github.io/2015/12/17/CoreAnimation&Facebook'sPOP/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -79,13 +86,6 @@
   </url>
   
   <url>
-    <loc>http://lin493369.github.io/2015/12/17/CoreAnimation&Facebook'sPOP/</loc>
-    
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://lin493369.github.io/2015/10/02/WatchOS2-Hello,World(2)/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
@@ -93,7 +93,14 @@
   </url>
   
   <url>
-    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
+    <loc>http://lin493369.github.io/2015/10/12/Playgrounds%E4%B8%AD%E7%9A%84%E5%AD%97%E9%9D%A2%E9%87%8F%EF%BC%88Literals%EF%BC%89/</loc>
+    
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -101,13 +108,6 @@
   
   <url>
     <loc>http://lin493369.github.io/2016/09/22/iOS10%E6%B7%BB%E5%8A%A0%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/</loc>
-    
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -122,6 +122,13 @@
   
   <url>
     <loc>http://lin493369.github.io/2016/07/01/iOS10%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%EF%BC%88LocalNotification)/</loc>
+    
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://lin493369.github.io/2017/04/10/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -156,7 +163,14 @@
   </url>
   
   <url>
-    <loc>http://lin493369.github.io/2015/09/24/%E6%9C%80%E4%BD%B3Swift%E5%AE%9E%E8%B7%B5(1)/</loc>
+    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
+    
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://lin493369.github.io/2016/01/08/Swift-PublicPropertiesWithPrivateSetters/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -170,21 +184,7 @@
   </url>
   
   <url>
-    <loc>http://lin493369.github.io/2015/10/20/StoryboardReference,StrongIBOutlet,SceneDockiOS9/</loc>
-    
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://lin493369.github.io/2016/02/20/%E5%9C%A8WordPress%E4%B8%AD%E4%BD%BF%E7%94%A8GithubREADME%E6%A0%87%E7%AD%BE/</loc>
-    
-    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://lin493369.github.io/2015/10/12/Playgrounds%E4%B8%AD%E7%9A%84%E5%AD%97%E9%9D%A2%E9%87%8F%EF%BC%88Literals%EF%BC%89/</loc>
+    <loc>http://lin493369.github.io/2015/09/24/%E6%9C%80%E4%BD%B3Swift%E5%AE%9E%E8%B7%B5(1)/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
@@ -192,6 +192,13 @@
   
   <url>
     <loc>http://lin493369.github.io/2015/12/27/interesting-discussions-on-swift-evolution/</loc>
+    
+    <lastmod>2017-04-11T11:35:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://lin493369.github.io/2015/12/19/HowtoEasilySwitchYourAppDelegateforTesting/</loc>
     
     <lastmod>2017-04-11T11:35:38.000Z</lastmod>
     
